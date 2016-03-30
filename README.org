@@ -10,7 +10,8 @@ and TODOs.
   1. Fork this repository on your own personal GitHub account.
   2. Download your fork, build this app, and begin making changes.
   3. When finished, create a Pull Request to merge into YOYO's version,
-     then send @zakame an email to let him know you're ready for review.
+     then send an email to [[https://github.com/zakame][@zakame]] to let him know you're ready for
+     review.
   4. We will close the pull request.
 
   You may also submit your commits using =git format-patch=, should you
