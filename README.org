@@ -1,7 +1,7 @@
 #+TITLE: Android Org App
 #+AUTHOR: Zak B. Elep <zak.elep@yoyo-holdings.com>
 
-Android Org App is YOYO's technical test.  This is a standard Android
+Android Org App is [[https://github.com/yoyo-holdings][YOYO]]'s technical test.  This is a standard Android
 application that provides a simple organizer for the user to store notes
 and TODOs.
 
