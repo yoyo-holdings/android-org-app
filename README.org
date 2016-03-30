@@ -41,8 +41,8 @@ and TODOs.
 
 * Notes
 
-  - You may use any libraries that you think would be useful for
-    completing the test and improving this app.
+  - You may use any open source libraries that you think would be useful
+    for completing the test and improving this app.
   - You may implement the user interface in any way that you feel may
     improve the user experience.
   - You may use any development tools you have at your disposal to
