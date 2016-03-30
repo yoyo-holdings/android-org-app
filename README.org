@@ -1,0 +1,53 @@
+#+TITLE: Android Org App
+#+AUTHOR: Zak B. Elep <zak.elep@yoyo-holdings.com>
+
+Android Org App is YOYO's technical test.  This is a standard Android
+application that provides a simple organizer for the user to store notes
+and TODOs.
+
+* Instructions
+
+  1. Fork this repository on your own personal GitHub account.
+  2. Download your fork, build this app, and begin making changes.
+  3. When finished, create a Pull Request to merge into YOYO's version,
+     then send @zakame an email to let him know you're ready for review.
+  4. We will close the pull request.
+
+  You may also submit your commits using =git format-patch=, should you
+  prefer it over GitHub PRs.
+
+* Specifications
+
+  1. The app consists of two major activities:
+     - a note-taking activity that accepts a =title= and =text= for one
+       or more notes
+     - a TODO tracking activity that accepts an =entry=, with a
+       =checkbox= to show whether this entry has been done or not done
+  2. The app should have a user interface that allows for easy access
+     between the note-taking and TODO tracking activities as well as to
+     see their details at a glance.
+  3. The note-taking activity should provide a view for its notes in a
+     reverse-chronological order, with options for updating and deleting
+     old notes.
+  4. The TODO-tracking activity should provide a view for its entries
+     with options for updating and deleting old TODOs.
+  5. The app should make it easy to switch between the note-taking and
+     TODO-tracking activities.
+  6. The app should make it easy to switch a note to a TODO entry, and
+     vice versa.
+  7. The release APK of the app should take up no more than 1MB of disk
+     space.
+
+* Notes
+
+  - You may use any libraries that you think would be useful for
+    completing the test and improving this app.
+  - You may implement the user interface in any way that you feel may
+    improve the user experience.
+  - You may use any development tools you have at your disposal to
+    complete this test, so long as the resulting app is a standard
+    Android application that can be built using the standard tooling:
+
+    #+BEGIN_SRC sh
+      gradle clean assembleDebug
+    #+END_SRC
