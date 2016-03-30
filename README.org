@@ -36,7 +36,7 @@ and TODOs.
      TODO-tracking activities.
   6. The app should make it easy to switch a note to a TODO entry, and
      vice versa.
-  7. The release APK of the app should take up no more than 1MB of disk
+  7. The release APK of the app should take up no more than 3MB of disk
      space.
 
 * Notes
