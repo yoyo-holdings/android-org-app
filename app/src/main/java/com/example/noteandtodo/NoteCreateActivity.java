@@ -33,17 +33,11 @@ implements View.OnClickListener
 
         if(this._id != 0) {
             // restore existing subject and text
-            NoteSQLiteOpenHelper helper = new NoteSQLiteOpenHelper(this);
+            MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
             SQLiteDatabase db = helper.getReadableDatabase();
-            /*
-            String[] cols = {NoteSQLiteOpenHelper.COLUMN_SUBJECT, NoteSQLiteOpenHelper.COLUMN_TEXT};
-            String selection = "_id = " + this._id;
-            Cursor cursor = db.query(
-                    NoteSQLiteOpenHelper.TABLE_NOTE,
-                    cols, selection, null, null, null, null, null);
-                    */
-            String sql = "select " + NoteSQLiteOpenHelper.COLUMN_SUBJECT + "," +NoteSQLiteOpenHelper.COLUMN_TEXT
-                    + " from " + NoteSQLiteOpenHelper.TABLE_NOTE
+
+            String sql = "select " + MySQLiteOpenHelper.COLUMN_SUBJECT + "," + MySQLiteOpenHelper.COLUMN_TEXT
+                    + " from " + MySQLiteOpenHelper.TABLE_NOTE
                     + " where _id = " + this._id;
             Cursor cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
@@ -80,25 +74,25 @@ implements View.OnClickListener
             return;
         }
 
-        NoteSQLiteOpenHelper helper = new NoteSQLiteOpenHelper(getApplicationContext());
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
 
         if (this._id == 0) {
             // insert new record
             ContentValues values = new ContentValues();
-            values.put(NoteSQLiteOpenHelper.COLUMN_SUBJECT, subject);
-            values.put(NoteSQLiteOpenHelper.COLUMN_TEXT, text);
-            values.put(NoteSQLiteOpenHelper.COLUMN_DATE, strDate);
-            db.insertOrThrow(NoteSQLiteOpenHelper.TABLE_NOTE, null, values);
+            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
+            values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
+            db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
             finish();
         } else {
             //update existing record
             ContentValues values = new ContentValues();
-            values.put(NoteSQLiteOpenHelper.COLUMN_SUBJECT, subject);
-            values.put(NoteSQLiteOpenHelper.COLUMN_TEXT, text);
-            values.put(NoteSQLiteOpenHelper.COLUMN_DATE, strDate);
+            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
+            values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
             db.update(
-                    NoteSQLiteOpenHelper.TABLE_NOTE,
+                    MySQLiteOpenHelper.TABLE_NOTE,
                     values,
                     "_id = " + this._id,
                     null);

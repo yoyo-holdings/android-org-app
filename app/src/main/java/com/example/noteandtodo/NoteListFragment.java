@@ -133,21 +133,21 @@ public class NoteListFragment extends ListFragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_note_list, container, false);
 
-        NoteSQLiteOpenHelper helper = new NoteSQLiteOpenHelper(getActivity());
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cursor = db.query(NoteSQLiteOpenHelper.TABLE_NOTE,
-                new String[]{NoteSQLiteOpenHelper.COLUMN_ID, NoteSQLiteOpenHelper.COLUMN_SUBJECT},
+        Cursor cursor = db.query(MySQLiteOpenHelper.TABLE_NOTE,
+                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_SUBJECT},
                 null,
                 null,
                 null,
                 null,
-                NoteSQLiteOpenHelper.COLUMN_DATE + " DESC");
+                MySQLiteOpenHelper.COLUMN_DATE + " DESC");
         this.mCursor = cursor;
         ListView list = (ListView)view.findViewById(android.R.id.list);
         this.mAdapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.note_item,
                 cursor,
-                new String[]{NoteSQLiteOpenHelper.COLUMN_SUBJECT, NoteSQLiteOpenHelper.COLUMN_ID},
+                new String[]{MySQLiteOpenHelper.COLUMN_SUBJECT, MySQLiteOpenHelper.COLUMN_ID},
                 new int[]{R.id.note_subject, R.id.note_id},
                 0);
 
@@ -205,11 +205,11 @@ public class NoteListFragment extends ListFragment {
                 int _id = Integer.parseInt(idText.getText().toString());
                 Log.d("APP", "selected id:"+_id);
 
-                NoteSQLiteOpenHelper helper = new NoteSQLiteOpenHelper(getActivity());
+                MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
                 SQLiteDatabase db = helper.getWritableDatabase();
                 db.delete(
-                        NoteSQLiteOpenHelper.TABLE_NOTE,
-                        NoteSQLiteOpenHelper.COLUMN_ID + " = " + _id,
+                        MySQLiteOpenHelper.TABLE_NOTE,
+                        MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
                         null
                 );
 

@@ -8,32 +8,45 @@ import android.net.Uri;
 /**
  * Created on 2016/04/09.
  */
-public class NoteSQLiteOpenHelper extends SQLiteOpenHelper {
-    public static final Uri CONTENT_URI = Uri.parse("content://com.example.notoandtodo/note");
-    private static final String DB_NAME = "note.db";
-    private static final int DB_VERSION = 1;
+public class MySQLiteOpenHelper extends SQLiteOpenHelper {
+//    public static final Uri CONTENT_URI = Uri.parse("content://com.example.notoandtodo/note");
+    private static final String DB_NAME = "noteandtodo.db";
+    private static final int DB_VERSION = 2;
     public static final String TABLE_NOTE  = "note";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_SUBJECT = "subject";
     public static final String COLUMN_TEXT = "text";
     public static final String COLUMN_DATE = "date";
 
-    private static final String CREATE_TABLE =
+    public static final String TABLE_TODO = "todo";
+    public static final String COLUMN_DONE = "done";
+
+
+    private static final String CREATE_TABLE_NOTE =
             "create table " + TABLE_NOTE + " "
             + "(" + COLUMN_ID + " integer primary key autoincrement,"
             + COLUMN_SUBJECT + " text not null,"
             + COLUMN_TEXT + " text not null,"
             + COLUMN_DATE + " text not null)";
 
-    private static final String DROP_TABLE = "drop table " + TABLE_NOTE;
+    private static final String CREATE_TABLE_TODO =
+            "create table " + TABLE_TODO +  " "
+            + "(" + COLUMN_ID + " integer primary key autoincrement,"
+            + COLUMN_SUBJECT + " text not null,"
+            + COLUMN_DONE + "integer not null,"
+            + COLUMN_DATE + "text not null)";
 
-    public NoteSQLiteOpenHelper(Context context) {
+    private static final String DROP_TABLE =
+            "drop table if exists " + TABLE_NOTE + "," + TABLE_TODO;
+
+    public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+        db.execSQL(CREATE_TABLE_NOTE);
+        db.execSQL(CREATE_TABLE_TODO);
     }
 
     @Override
