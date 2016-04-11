@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <CheckBox
+        android:id="@+id/todo_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <EditText
+        android:id="@+id/todo_text_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/todo_delete"
+        android:layout_toRightOf="@+id/todo_checkbox"
+        android:background="?android:colorBackground"
+        android:layout_toStartOf="@+id/todo_delete"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:hint="@string/todo_hint"
+        android:singleLine="true" />
+
+    <ImageView
+        android:id="@+id/todo_more"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:alpha="0.38"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/ic_more_vert_black"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/todo_delete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:alpha="0.38"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/ic_delete_black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:alpha="0.38"
+        android:background="#000000" />
+
+</RelativeLayout>

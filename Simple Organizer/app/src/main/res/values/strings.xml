@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Simple Organizer</string>
+    <string name="todo_deleted">To do item deleted</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="notes">Notes</string>
+    <string name="todo">To do</string>
+    <string name="note_add_msg">Type a note…</string>
+    <string name="todo_add_msg">Add to do</string>
+    <string name="todo_add_btn">ADD</string>
+    <string name="notes_title_hint">Title</string>
+    <string name="notes_msg_hint">Message…</string>
+    <string name="todo_hint">This is a note</string>
+    <string name="menu_edit">EDIT</string>
+    <string name="menu_delete">DELETE</string>
+</resources>
