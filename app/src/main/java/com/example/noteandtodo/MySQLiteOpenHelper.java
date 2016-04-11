@@ -11,7 +11,7 @@ import android.net.Uri;
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 //    public static final Uri CONTENT_URI = Uri.parse("content://com.example.notoandtodo/note");
     private static final String DB_NAME = "noteandtodo.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 5;
     public static final String TABLE_NOTE  = "note";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_SUBJECT = "subject";
@@ -33,11 +33,17 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             "create table " + TABLE_TODO +  " "
             + "(" + COLUMN_ID + " integer primary key autoincrement,"
             + COLUMN_SUBJECT + " text not null,"
-            + COLUMN_DONE + "integer not null,"
-            + COLUMN_DATE + "text not null)";
+            + COLUMN_DONE + " integer not null,"
+            + COLUMN_DATE + " text not null)";
 
+/* doesn't work
     private static final String DROP_TABLE =
-            "drop table if exists " + TABLE_NOTE + "," + TABLE_TODO;
+            "drop table " + TABLE_NOTE + "," + TABLE_TODO;
+*/
+    private static final String DROP_TABLE_NOTE =
+            "drop table " + TABLE_NOTE;
+    private static final String DROP_TABLE_TODO =
+            "drop table " + TABLE_TODO;
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -51,7 +57,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DROP_TABLE);
+        db.execSQL(DROP_TABLE_NOTE);
+        db.execSQL(DROP_TABLE_TODO);
         onCreate(db);
     }
 

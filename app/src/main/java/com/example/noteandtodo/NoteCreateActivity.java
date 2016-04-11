@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NoteCreateActivity extends AppCompatActivity
-implements View.OnClickListener
+        implements View.OnClickListener
 {
 
     private int _id = 0;
@@ -29,7 +29,6 @@ implements View.OnClickListener
         Intent intent = getIntent();
         int _id = intent.getIntExtra(NoteListFragment.EXTRA_ID, 0);
         this._id = _id;
-        Log.d("APP", "NoteCreateActivity _id:"+_id);
 
         if(this._id != 0) {
             // restore existing subject and text
@@ -64,6 +63,7 @@ implements View.OnClickListener
         Date date = new Date();
         String strDate = dateFormat.format(date);
 
+        // check if subject or text is empty
         if (subject.equals("")) {
             Snackbar.make(v, "Subject is empty", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -74,7 +74,7 @@ implements View.OnClickListener
             return;
         }
 
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getApplicationContext());
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
         SQLiteDatabase db = helper.getWritableDatabase();
 
         if (this._id == 0) {
@@ -86,7 +86,7 @@ implements View.OnClickListener
             db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
             finish();
         } else {
-            //update existing record
+            // update existing record
             ContentValues values = new ContentValues();
             values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);

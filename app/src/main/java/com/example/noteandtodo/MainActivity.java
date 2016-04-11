@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -160,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
 //                    return PlaceholderFragment.newInstance(position + 1);
-                    return (Fragment)NoteListFragment.newInstance();
+                    return NoteListFragment.newInstance();
                 case 1:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return TodoListFragment.newInstance();
             }
             return null;
         }

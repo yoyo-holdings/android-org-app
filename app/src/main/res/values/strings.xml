@@ -6,6 +6,10 @@
     <string name="todo_tab_title">TODO</string>
     <string name="note_subject_hint">Subject</string>
     <string name="note_text_hint">Text</string>
-    <string name="note_save">Save</string>
+    <string name="save">Save</string>
     <string name="note_delete">Delete</string>
+    <string name="todo_subject_hint">TODO</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -17,18 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 
 /**
@@ -43,11 +34,12 @@ public class NoteListFragment extends ListFragment {
 
     public static final String EXTRA_ID = "_ID";
 
-    private OnFragmentInteractionListener mListener;
 //    private NoteListAdapter mAdapter;
     private SimpleCursorAdapter mAdapter;
     private Cursor mCursor;
 
+
+/*
     private class NoteItem {
         private int id = -1;
         public String subject = "";
@@ -62,9 +54,6 @@ public class NoteListFragment extends ListFragment {
         }
     }
 
-    //
-    // NoteListAdapter (not used)
-    //
     private class NoteListAdapter extends ArrayAdapter<NoteItem> {
         public NoteListAdapter(Context context) {
             super(context, 0);
@@ -73,17 +62,7 @@ public class NoteListFragment extends ListFragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             View view;
-/*
-            NoteSQLiteOpenHelper helper  = new NoteSQLiteOpenHelper(this);
-            SQLiteDatabase db = helper.getReadableDatabase();
-            Cursor cursor = db.query(NoteSQLiteOpenHelper.TABLE_NOTE,
-                    new String[]{NoteSQLiteOpenHelper.COLUMN_ID, NoteSQLiteOpenHelper.COLUMN_SUBJECT},
-                    null,
-                    null,
-                    null,
-                    null,
-                    NoteSQLiteOpenHelper.COLUMN_DATE + " DESC");
-*/
+
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 view = inflater.inflate(R.layout.note_item, parent, false);
@@ -103,7 +82,7 @@ public class NoteListFragment extends ListFragment {
     //
     // end NoteListAdapter
     //
-
+*/
 
     public NoteListFragment() {
         // Required empty public constructor
@@ -151,18 +130,6 @@ public class NoteListFragment extends ListFragment {
                 new int[]{R.id.note_subject, R.id.note_id},
                 0);
 
-        // set long click listner
-        /*
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView)view.findViewById(R.id.note_id);
-                String _id = textView.getText().toString();
-                Log.d("APP", "id:"+ _id);
-                return true;
-            }
-        });
-        */
         list.setAdapter(mAdapter);
         registerForContextMenu(list);
 
@@ -222,45 +189,4 @@ public class NoteListFragment extends ListFragment {
         return false;
     }
 
-/*
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-*/
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        /*
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-        */
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
