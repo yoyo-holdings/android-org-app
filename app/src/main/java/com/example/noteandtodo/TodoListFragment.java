@@ -1,5 +1,6 @@
 package com.example.noteandtodo;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -25,9 +28,6 @@ import java.util.List;
 
 /**
  * A simple {@link ListFragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TodoListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link TodoListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -35,7 +35,7 @@ public class TodoListFragment extends ListFragment {
 
     public static final String EXTRA_ID = "_ID";
 
-    private SimpleCursorAdapter mAdapter;
+    private TodoCursorAdapter mAdapter;
     private Cursor mCursor;
 
     private class TodoCursorAdapter extends SimpleCursorAdapter {
@@ -43,6 +43,36 @@ public class TodoListFragment extends ListFragment {
                 String[] from, int[] to, int flags) {
             super(context, layout, c, from, to, flags);
         }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            View view = super.newView(context, cursor, parent);
+            CheckBox checkBox = (CheckBox)view.findViewById(R.id.checkbox_done);
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CheckBox checkBox = (CheckBox) v;
+                    int done = checkBox.isChecked() ? 1 : 0;
+                    View parent = (View) v.getParent();
+                    TextView idText = (TextView) parent.findViewById(R.id.todo_id);
+                    int _id = Integer.parseInt(idText.getText().toString());
+
+                    // update done or not
+                    MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(MySQLiteOpenHelper.COLUMN_DONE, done);
+                    db.update(
+                            MySQLiteOpenHelper.TABLE_TODO,
+                            values,
+                            MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
+                            null);
+
+                }
+            });
+            return view;
+        }
+
 
      }
 
@@ -86,13 +116,26 @@ public class TodoListFragment extends ListFragment {
                 MySQLiteOpenHelper.COLUMN_DATE + " DESC");
         this.mCursor = cursor;
         ListView listView = (ListView)view.findViewById(android.R.id.list);
-        this.mAdapter = new SimpleCursorAdapter(
+        this.mAdapter = new TodoCursorAdapter(
                 getActivity(),
                 R.layout.todo_item,
                 cursor,
-                new String[]{MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_ID},
-                new int[]{R.id.todo_entry, R.id.todo_id},
+                new String[]{MySQLiteOpenHelper.COLUMN_ENTRY,
+                        MySQLiteOpenHelper.COLUMN_ID,
+                        MySQLiteOpenHelper.COLUMN_DONE},
+                new int[]{R.id.todo_entry, R.id.todo_id, R.id.checkbox_done},
                 0);
+        this.mAdapter.setViewBinder(new TodoCursorAdapter.ViewBinder() {
+            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+                if(columnIndex == 2) {
+                    // convert done(0/1) to CheckBox state
+                    boolean done = cursor.getInt(2) == 1 ? true : false;
+                    ((CheckBox)view).setChecked(done);
+                    return true;
+                }
+                return false;
+            }
+        });
         listView.setAdapter(mAdapter);
         registerForContextMenu(listView);
 

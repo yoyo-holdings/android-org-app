@@ -160,16 +160,17 @@ public class NoteListFragment extends ListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+        View listItem = info.targetView;
+        TextView idText = (TextView)listItem.findViewById(R.id.note_id);
+        int _id = Integer.parseInt(idText.getText().toString());
+
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
+        SQLiteDatabase db = helper.getWritableDatabase();
+
         switch (item.getItemId()) {
             case R.id.note_delete:
                 // delete selected note
-                AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-                View listItem = info.targetView;
-                TextView idText = (TextView)listItem.findViewById(R.id.note_id);
-                int _id = Integer.parseInt(idText.getText().toString());
-
-                MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-                SQLiteDatabase db = helper.getWritableDatabase();
                 db.delete(
                         MySQLiteOpenHelper.TABLE_NOTE,
                         MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
@@ -179,8 +180,11 @@ public class NoteListFragment extends ListFragment {
                 mCursor.requery();
                 mAdapter.notifyDataSetChanged();
 
-
                 return true;
+
+            case R.id.note_to_todo:
+                return true;
+
         }
         return false;
     }

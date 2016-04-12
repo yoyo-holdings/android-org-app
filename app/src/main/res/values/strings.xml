@@ -9,5 +9,6 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="todo_entry_hint">Entry</string>
-
+    <string name="note_to_todo">Convert to a TODO</string>
+    <string name="todo_to_note">Convert to a Note</string>
 </resources>
