@@ -7,9 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -100,4 +106,38 @@ public class TodoListFragment extends ListFragment {
         startActivity(intent);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu_todo, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.todo_delete:
+                // delete selected todo
+                AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+                View listItem = info.targetView;
+                TextView idText = (TextView)listItem.findViewById(R.id.todo_id);
+                int _id = Integer.parseInt(idText.getText().toString());
+
+                MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
+                SQLiteDatabase db = helper.getWritableDatabase();
+                db.delete(
+                        MySQLiteOpenHelper.TABLE_TODO,
+                        MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
+                        null
+                );
+
+                mCursor.requery();
+                mAdapter.notifyDataSetChanged();
+
+                return true;
+        }
+
+        return false;
+    }
 }

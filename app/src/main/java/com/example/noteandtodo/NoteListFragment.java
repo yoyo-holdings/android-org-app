@@ -170,7 +170,6 @@ public class NoteListFragment extends ListFragment {
                 View listItem = info.targetView;
                 TextView idText = (TextView)listItem.findViewById(R.id.note_id);
                 int _id = Integer.parseInt(idText.getText().toString());
-                Log.d("APP", "selected id:"+_id);
 
                 MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
                 SQLiteDatabase db = helper.getWritableDatabase();

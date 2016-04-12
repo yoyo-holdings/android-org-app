@@ -7,7 +7,7 @@
     <string name="note_subject_hint">Subject</string>
     <string name="note_text_hint">Text</string>
     <string name="save">Save</string>
-    <string name="note_delete">Delete</string>
+    <string name="delete">Delete</string>
     <string name="todo_subject_hint">TODO</string>
 
     <!-- TODO: Remove or change this placeholder text -->
