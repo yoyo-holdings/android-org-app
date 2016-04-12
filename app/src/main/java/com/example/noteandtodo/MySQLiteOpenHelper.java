@@ -11,7 +11,7 @@ import android.net.Uri;
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 //    public static final Uri CONTENT_URI = Uri.parse("content://com.example.notoandtodo/note");
     private static final String DB_NAME = "noteandtodo.db";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
     public static final String TABLE_NOTE  = "note";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_SUBJECT = "subject";
@@ -41,9 +41,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             "drop table " + TABLE_NOTE + "," + TABLE_TODO;
 */
     private static final String DROP_TABLE_NOTE =
-            "drop table " + TABLE_NOTE;
+            "drop table if exists " + TABLE_NOTE;
     private static final String DROP_TABLE_TODO =
-            "drop table " + TABLE_TODO;
+            "drop table if exists  " + TABLE_TODO;
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

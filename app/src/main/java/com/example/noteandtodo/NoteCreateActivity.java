@@ -94,7 +94,7 @@ public class NoteCreateActivity extends AppCompatActivity
             db.update(
                     MySQLiteOpenHelper.TABLE_NOTE,
                     values,
-                    "_id = " + this._id,
+                    MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
                     null);
             finish();
         }

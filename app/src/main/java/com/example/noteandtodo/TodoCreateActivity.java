@@ -77,7 +77,15 @@ public class TodoCreateActivity extends AppCompatActivity
         }
         else {
             // update existing record
-            // TODO
+            ContentValues values = new ContentValues();
+            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
+            db.update(
+                    MySQLiteOpenHelper.TABLE_TODO,
+                    values,
+                    MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
+                    null);
+            finish();
         }
     }
 }
