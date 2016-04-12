@@ -33,14 +33,14 @@ public class TodoCreateActivity extends AppCompatActivity
             MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
             SQLiteDatabase db = helper.getReadableDatabase();
 
-            String sql = "select " + MySQLiteOpenHelper.COLUMN_SUBJECT
+            String sql = "select " + MySQLiteOpenHelper.COLUMN_ENTRY
                     + " from " + MySQLiteOpenHelper.TABLE_TODO
                     + " where _id = " + this._id;
             Cursor cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
 
-            EditText subjectEdit = (EditText)findViewById(R.id.todo_subject);
-            subjectEdit.setText(cursor.getString(0));
+            EditText entryEdit = (EditText)findViewById(R.id.todo_entry);
+            entryEdit.setText(cursor.getString(0));
             cursor.close();
         }
 
@@ -50,14 +50,14 @@ public class TodoCreateActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        EditText subjectEdit = (EditText)findViewById(R.id.todo_subject);
-        String subject = subjectEdit.getText().toString();
+        EditText entryEdit = (EditText)findViewById(R.id.todo_entry);
+        String entry = entryEdit.getText().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String strDate = dateFormat.format(date);
 
-        // check if subject is empty
-        if(subject.equals("")) {
+        // check if entry is empty
+        if(entry.equals("")) {
             Snackbar.make(v, "Subject is empty", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
@@ -69,7 +69,7 @@ public class TodoCreateActivity extends AppCompatActivity
         if(this._id == 0) {
             // insert new record
             ContentValues values = new ContentValues();
-            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_ENTRY, entry);
             values.put(MySQLiteOpenHelper.COLUMN_DONE, 0);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
             db.insertOrThrow(MySQLiteOpenHelper.TABLE_TODO, null, values);
@@ -78,7 +78,7 @@ public class TodoCreateActivity extends AppCompatActivity
         else {
             // update existing record
             ContentValues values = new ContentValues();
-            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_ENTRY, entry);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
             db.update(
                     MySQLiteOpenHelper.TABLE_TODO,

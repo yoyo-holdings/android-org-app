@@ -32,10 +32,20 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class TodoListFragment extends ListFragment {
+
     public static final String EXTRA_ID = "_ID";
 
     private SimpleCursorAdapter mAdapter;
     private Cursor mCursor;
+
+    private class TodoCursorAdapter extends SimpleCursorAdapter {
+        public TodoCursorAdapter(Context context, int layout, Cursor c,
+                String[] from, int[] to, int flags) {
+            super(context, layout, c, from, to, flags);
+        }
+
+     }
+
 
     public TodoListFragment() {
         // Required empty public constructor
@@ -68,7 +78,7 @@ public class TodoListFragment extends ListFragment {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query(
                 MySQLiteOpenHelper.TABLE_TODO,
-                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_SUBJECT, MySQLiteOpenHelper.COLUMN_DONE},
+                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_DONE},
                 null,
                 null,
                 null,
@@ -80,8 +90,8 @@ public class TodoListFragment extends ListFragment {
                 getActivity(),
                 R.layout.todo_item,
                 cursor,
-                new String[]{MySQLiteOpenHelper.COLUMN_SUBJECT, MySQLiteOpenHelper.COLUMN_ID},
-                new int[]{R.id.todo_subject, R.id.todo_id},
+                new String[]{MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_ID},
+                new int[]{R.id.todo_entry, R.id.todo_id},
                 0);
         listView.setAdapter(mAdapter);
         registerForContextMenu(listView);

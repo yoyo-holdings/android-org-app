@@ -31,18 +31,18 @@ public class NoteCreateActivity extends AppCompatActivity
         this._id = _id;
 
         if(this._id != 0) {
-            // restore existing subject and text
+            // restore existing title and text
             MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
             SQLiteDatabase db = helper.getReadableDatabase();
 
-            String sql = "select " + MySQLiteOpenHelper.COLUMN_SUBJECT + "," + MySQLiteOpenHelper.COLUMN_TEXT
+            String sql = "select " + MySQLiteOpenHelper.COLUMN_TITLE + "," + MySQLiteOpenHelper.COLUMN_TEXT
                     + " from " + MySQLiteOpenHelper.TABLE_NOTE
                     + " where _id = " + this._id;
             Cursor cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
 
-            EditText subjectEdit = (EditText)findViewById(R.id.note_subject);
-            subjectEdit.setText(cursor.getString(0));
+            EditText titleEdit = (EditText)findViewById(R.id.note_title);
+            titleEdit.setText(cursor.getString(0));
             EditText textEdit = (EditText)findViewById(R.id.note_text);
             textEdit.setText(cursor.getString(1));
             cursor.close();
@@ -55,17 +55,17 @@ public class NoteCreateActivity extends AppCompatActivity
     // save button onClick
     @Override
     public void onClick(View v) {
-        EditText subjectEdit = (EditText) findViewById(R.id.note_subject);
-        String subject = subjectEdit.getText().toString();
+        EditText titleEdit = (EditText) findViewById(R.id.note_title);
+        String title = titleEdit.getText().toString();
         EditText textEdit = (EditText) findViewById(R.id.note_text);
         String text = textEdit.getText().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String strDate = dateFormat.format(date);
 
-        // check if subject or text is empty
-        if (subject.equals("")) {
-            Snackbar.make(v, "Subject is empty", Snackbar.LENGTH_LONG)
+        // check if title or text is empty
+        if (title.equals("")) {
+            Snackbar.make(v, "Title is empty", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
         } else if (text.equals("")) {
@@ -80,7 +80,7 @@ public class NoteCreateActivity extends AppCompatActivity
         if (this._id == 0) {
             // insert new record
             ContentValues values = new ContentValues();
-            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_TITLE, title);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
             db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
@@ -88,7 +88,7 @@ public class NoteCreateActivity extends AppCompatActivity
         } else {
             // update existing record
             ContentValues values = new ContentValues();
-            values.put(MySQLiteOpenHelper.COLUMN_SUBJECT, subject);
+            values.put(MySQLiteOpenHelper.COLUMN_TITLE, title);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
             db.update(

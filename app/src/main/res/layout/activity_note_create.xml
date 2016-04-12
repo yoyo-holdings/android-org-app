@@ -13,9 +13,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/note_subject"
+        android:id="@+id/note_title"
         android:inputType="text"
-        android:hint="@string/note_subject_hint"/>
+        android:hint="@string/note_title_hint"/>
 
     <EditText
         android:layout_width="match_parent"

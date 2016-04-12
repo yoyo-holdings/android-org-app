@@ -24,9 +24,6 @@ import android.widget.Toast;
 
 /**
  * A simple {@link ListFragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NoteListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link NoteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -42,14 +39,14 @@ public class NoteListFragment extends ListFragment {
 /*
     private class NoteItem {
         private int id = -1;
-        public String subject = "";
+        public String title = "";
         public String text = "";
 
         public NoteItem() {
         }
 
-        public NoteItem(String subject, String text) {
-            this.subject = subject;
+        public NoteItem(String title, String text) {
+            this.title = title;
             this.text = text;
         }
     }
@@ -72,8 +69,8 @@ public class NoteListFragment extends ListFragment {
             }
 
             NoteItem noteItem = getItem(position);
-            TextView textView = (TextView)view.findViewById(R.id.note_subject);
-            textView.setText(noteItem.subject);
+            TextView textView = (TextView)view.findViewById(R.id.note_title);
+            textView.setText(noteItem.title);
 
             return view;
         }
@@ -115,7 +112,7 @@ public class NoteListFragment extends ListFragment {
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query(MySQLiteOpenHelper.TABLE_NOTE,
-                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_SUBJECT},
+                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_TITLE},
                 null,
                 null,
                 null,
@@ -126,8 +123,8 @@ public class NoteListFragment extends ListFragment {
         this.mAdapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.note_item,
                 cursor,
-                new String[]{MySQLiteOpenHelper.COLUMN_SUBJECT, MySQLiteOpenHelper.COLUMN_ID},
-                new int[]{R.id.note_subject, R.id.note_id},
+                new String[]{MySQLiteOpenHelper.COLUMN_TITLE, MySQLiteOpenHelper.COLUMN_ID},
+                new int[]{R.id.note_title, R.id.note_id},
                 0);
 
         list.setAdapter(mAdapter);

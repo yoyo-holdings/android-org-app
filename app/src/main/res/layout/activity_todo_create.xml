@@ -13,9 +13,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/todo_subject"
+        android:id="@+id/todo_entry"
         android:inputType="text"
-        android:hint="@string/todo_subject_hint"/>
+        android:hint="@string/todo_entry_hint"/>
 
     <Button
         android:layout_width="wrap_content"
