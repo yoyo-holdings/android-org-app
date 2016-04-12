@@ -1,6 +1,7 @@
 package com.example.noteandtodo;
 
 //import android.app.ListFragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +21,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -160,6 +164,11 @@ public class NoteListFragment extends ListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // avoid reacting other fragments' context menu
+        if(getUserVisibleHint() == false){
+            return false;
+        }
+        // get _id
         AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
         View listItem = info.targetView;
         TextView idText = (TextView)listItem.findViewById(R.id.note_id);
@@ -183,6 +192,35 @@ public class NoteListFragment extends ListFragment {
                 return true;
 
             case R.id.note_to_todo:
+                TextView titleText = (TextView)listItem.findViewById(R.id.note_title);
+                String title = titleText.getText().toString();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                String strDate = dateFormat.format(date);
+
+                // add TODO and delete note
+                db.beginTransaction();
+                try {
+                    ContentValues values = new ContentValues();
+                    values.put(MySQLiteOpenHelper.COLUMN_ENTRY, title);
+                    values.put(MySQLiteOpenHelper.COLUMN_DONE, 0);
+                    values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
+                    db.insertOrThrow(MySQLiteOpenHelper.TABLE_TODO, null, values);
+                    db.delete(
+                            MySQLiteOpenHelper.TABLE_NOTE,
+                            MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
+                            null
+                    );
+                    db.setTransactionSuccessful();
+                } catch (Exception e) {
+
+                } finally {
+                    db.endTransaction();
+                }
+
+                mCursor.requery();
+                mAdapter.notifyDataSetChanged();
+
                 return true;
 
         }

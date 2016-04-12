@@ -68,11 +68,14 @@ public class NoteCreateActivity extends AppCompatActivity
             Snackbar.make(v, "Title is empty", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
-        } else if (text.equals("")) {
+        }
+        /*
+        else if (text.equals("")) {
             Snackbar.make(v, "Text is empty", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
         }
+        */
 
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
         SQLiteDatabase db = helper.getWritableDatabase();

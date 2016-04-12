@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -169,21 +171,59 @@ public class TodoListFragment extends ListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // avoid reactinc other fragments' context menu
+        if(getUserVisibleHint() == false) {
+            return false;
+        }
+
+        // get _id
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+        View listItem = info.targetView;
+        TextView idText = (TextView)listItem.findViewById(R.id.todo_id);
+        int _id = Integer.parseInt(idText.getText().toString());
+
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
+        SQLiteDatabase db = helper.getWritableDatabase();
+
         switch (item.getItemId()) {
             case R.id.todo_delete:
                 // delete selected todo
-                AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-                View listItem = info.targetView;
-                TextView idText = (TextView)listItem.findViewById(R.id.todo_id);
-                int _id = Integer.parseInt(idText.getText().toString());
-
-                MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-                SQLiteDatabase db = helper.getWritableDatabase();
                 db.delete(
                         MySQLiteOpenHelper.TABLE_TODO,
                         MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
                         null
                 );
+
+                mCursor.requery();
+                mAdapter.notifyDataSetChanged();
+
+                return true;
+            case R.id.todo_to_note:
+                TextView entryText = (TextView)listItem.findViewById(R.id.todo_entry);
+                String entry = entryText.getText().toString();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                String strDate = dateFormat.format(date);
+
+                // add TODO and delete note
+                db.beginTransaction();
+                try {
+                    ContentValues values = new ContentValues();
+                    values.put(MySQLiteOpenHelper.COLUMN_TITLE, entry);
+                    values.put(MySQLiteOpenHelper.COLUMN_TEXT, "");
+                    values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
+                    db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
+                    db.delete(
+                            MySQLiteOpenHelper.TABLE_TODO,
+                            MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
+                            null
+                    );
+                    db.setTransactionSuccessful();
+                } catch (Exception e) {
+
+                } finally {
+                    db.endTransaction();
+                }
 
                 mCursor.requery();
                 mAdapter.notifyDataSetChanged();
