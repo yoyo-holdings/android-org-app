@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -20,16 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -44,8 +36,11 @@ public class TodoListFragment extends ListFragment
     public static final String EXTRA_ID = "_ID";
 
     private TodoCursorAdapter mAdapter;
-    private Cursor mCursor;
 
+    /**
+     * A SimpleCursorAdapter subclass.
+     * Made to set onClickListener on CheckBoxes
+     */
     private class TodoCursorAdapter extends SimpleCursorAdapter {
         public TodoCursorAdapter(Context context, int layout, Cursor c,
                 String[] from, int[] to, int flags) {
@@ -112,25 +107,13 @@ public class TodoListFragment extends ListFragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_todo_list, container, false);
 
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-        SQLiteDatabase db = helper.getReadableDatabase();
-        /*
-        Cursor cursor = db.query(
-                MySQLiteOpenHelper.TABLE_TODO,
-                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_DONE},
-                null,
-                null,
-                null,
-                null,
-                MySQLiteOpenHelper.COLUMN_DATE + " DESC");
-        */
         Cursor cursor = getActivity().getContentResolver().query(
                 MyContentProvider.CONTENT_URI_TODO,
                 //new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_DONE},
                 null,
                 null, null,
                 MySQLiteOpenHelper.COLUMN_DATE + " DESC");
-        this.mCursor = cursor;
+
         ListView listView = (ListView)view.findViewById(android.R.id.list);
         this.mAdapter = new TodoCursorAdapter(
                 getActivity(),
@@ -162,6 +145,7 @@ public class TodoListFragment extends ListFragment
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        // Go to TodoCreateActivity to edit
         TextView textView = (TextView)v.findViewById(R.id.todo_id);
         int _id = Integer.parseInt(textView.getText().toString());
         Intent intent = new Intent(getActivity(), TodoCreateActivity.class);
@@ -184,25 +168,15 @@ public class TodoListFragment extends ListFragment
             return false;
         }
 
-        // get _id
+        // get longClicked todo's _id
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         View listItem = info.targetView;
         TextView idText = (TextView) listItem.findViewById(R.id.todo_id);
         int _id = Integer.parseInt(idText.getText().toString());
 
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-        SQLiteDatabase db = helper.getWritableDatabase();
-
         switch (item.getItemId()) {
             case R.id.todo_delete:
                 // delete selected todo
-                /*
-                db.delete(
-                        MySQLiteOpenHelper.TABLE_TODO,
-                        MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
-                        null
-                );
-                */
                 getActivity().getContentResolver().delete(
                         MyContentProvider.CONTENT_URI_TODO,
                         MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
@@ -212,36 +186,7 @@ public class TodoListFragment extends ListFragment
                 return true;
 
             case R.id.todo_to_note:
-                /*
-                TextView entryText = (TextView) listItem.findViewById(R.id.todo_entry);
-                String entry = entryText.getText().toString();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date();
-                String strDate = dateFormat.format(date);
-
-                // add TODO and delete note
-                db.beginTransaction();
-                try {
-                    ContentValues values = new ContentValues();
-                    values.put(MySQLiteOpenHelper.COLUMN_TITLE, entry);
-                    values.put(MySQLiteOpenHelper.COLUMN_TEXT, "");
-                    values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-                    db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
-                    db.delete(
-                            MySQLiteOpenHelper.TABLE_TODO,
-                            MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
-                            null
-                    );
-                    db.setTransactionSuccessful();
-                } catch (Exception e) {
-
-                } finally {
-                    db.endTransaction();
-                }
-
-                mCursor.requery();
-                mAdapter.notifyDataSetChanged();
-                */
+                // convert todo to note
                 getActivity().getContentResolver().call(
                         MyContentProvider.CONTENT_URI_TODO,
                         "convertTodoToNote",

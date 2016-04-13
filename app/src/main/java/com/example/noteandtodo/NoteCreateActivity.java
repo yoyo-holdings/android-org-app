@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,10 +54,13 @@ public class NoteCreateActivity extends AppCompatActivity
     // save button onClick
     @Override
     public void onClick(View v) {
+        // get title
         EditText titleEdit = (EditText) findViewById(R.id.note_title);
         String title = titleEdit.getText().toString();
+        // get text
         EditText textEdit = (EditText) findViewById(R.id.note_text);
         String text = textEdit.getText().toString();
+        // current time
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String strDate = dateFormat.format(date);
@@ -69,16 +71,6 @@ public class NoteCreateActivity extends AppCompatActivity
                     .setAction("Action", null).show();
             return;
         }
-        /*
-        else if (text.equals("")) {
-            Snackbar.make(v, "Text is empty", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            return;
-        }
-        */
-
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
 
         if (this._id == 0) {
             // insert new record
@@ -86,7 +78,6 @@ public class NoteCreateActivity extends AppCompatActivity
             values.put(MySQLiteOpenHelper.COLUMN_TITLE, title);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-            //db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
             getContentResolver().insert(
                     MyContentProvider.CONTENT_URI_NOTE,
                     values
@@ -98,13 +89,6 @@ public class NoteCreateActivity extends AppCompatActivity
             values.put(MySQLiteOpenHelper.COLUMN_TITLE, title);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-            /*
-            db.update(
-                    MySQLiteOpenHelper.TABLE_NOTE,
-                    values,
-                    MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
-                    null);
-            */
             getContentResolver().update(
                     MyContentProvider.CONTENT_URI_NOTE,
                     values,

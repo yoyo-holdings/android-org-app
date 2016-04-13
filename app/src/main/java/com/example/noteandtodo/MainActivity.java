@@ -56,9 +56,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get current tab position
+                // create new activity depending on the tab position
                 int position = mViewPager.getCurrentItem();
-                Log.d("APP", ""+position);
                 Intent intent;
                 switch(position) {
                     case 0: // NOTE
@@ -70,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                 }
-/*
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-*/
+
             }
         });
 
@@ -120,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-//                    return PlaceholderFragment.newInstance(position + 1);
                     return NoteListFragment.newInstance();
                 case 1:
                     return TodoListFragment.newInstance();
@@ -143,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     return res.getString(R.string.note_tab_title);
                 case 1:
                     return res.getString(R.string.todo_tab_title);
-//                case 2:
-//                    return "SECTION 3";
             }
             return "";
         }

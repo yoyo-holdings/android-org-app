@@ -6,13 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 /**
+ * SQLiteOpenHelper for note and todo
+ *
  * Created on 2016/04/09.
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
-    public static final Uri CONTENT_URI_NOTE = Uri.parse("content://com.example.notoandtodo.provider/note");
-    public static final Uri CONTENT_URI_TODO = Uri.parse("content://com.example.notoandtodo.provider/todo");
     private static final String DB_NAME = "noteandtodo.db";
-    private static final int DB_VERSION = 9;
+    private static final int DB_VERSION = 11;
     public static final String TABLE_NOTE  = "note";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TITLE = "title";
@@ -38,10 +38,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             + COLUMN_DONE + " integer not null,"
             + COLUMN_DATE + " text not null)";
 
-/* doesn't work
-    private static final String DROP_TABLE =
-            "drop table " + TABLE_NOTE + "," + TABLE_TODO;
-*/
     private static final String DROP_TABLE_NOTE =
             "drop table if exists " + TABLE_NOTE;
     private static final String DROP_TABLE_TODO =

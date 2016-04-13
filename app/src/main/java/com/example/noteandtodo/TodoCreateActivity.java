@@ -48,10 +48,13 @@ public class TodoCreateActivity extends AppCompatActivity
         saveButton.setOnClickListener(this);
     }
 
+    // save button onClick
     @Override
     public void onClick(View v) {
+        // get entry
         EditText entryEdit = (EditText)findViewById(R.id.todo_entry);
         String entry = entryEdit.getText().toString();
+        // current time
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String strDate = dateFormat.format(date);
@@ -63,16 +66,12 @@ public class TodoCreateActivity extends AppCompatActivity
             return;
         }
 
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
         if(this._id == 0) {
             // insert new record
             ContentValues values = new ContentValues();
             values.put(MySQLiteOpenHelper.COLUMN_ENTRY, entry);
             values.put(MySQLiteOpenHelper.COLUMN_DONE, 0);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-            //db.insertOrThrow(MySQLiteOpenHelper.TABLE_TODO, null, values);
             getContentResolver().insert(
                     MyContentProvider.CONTENT_URI_TODO,
                     values
@@ -84,13 +83,6 @@ public class TodoCreateActivity extends AppCompatActivity
             ContentValues values = new ContentValues();
             values.put(MySQLiteOpenHelper.COLUMN_ENTRY, entry);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-            /*
-            db.update(
-                    MySQLiteOpenHelper.TABLE_TODO,
-                    values,
-                    MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
-                    null);
-            */
             getContentResolver().update(
                     MyContentProvider.CONTENT_URI_TODO,
                     values,
