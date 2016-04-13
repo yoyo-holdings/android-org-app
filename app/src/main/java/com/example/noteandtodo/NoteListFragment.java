@@ -9,6 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -31,59 +35,15 @@ import java.util.Date;
  * Use the {@link NoteListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NoteListFragment extends ListFragment {
+public class NoteListFragment extends ListFragment
+        implements LoaderCallbacks<Cursor>
+{
 
     public static final String EXTRA_ID = "_ID";
 
 //    private NoteListAdapter mAdapter;
     private SimpleCursorAdapter mAdapter;
     private Cursor mCursor;
-
-
-/*
-    private class NoteItem {
-        private int id = -1;
-        public String title = "";
-        public String text = "";
-
-        public NoteItem() {
-        }
-
-        public NoteItem(String title, String text) {
-            this.title = title;
-            this.text = text;
-        }
-    }
-
-    private class NoteListAdapter extends ArrayAdapter<NoteItem> {
-        public NoteListAdapter(Context context) {
-            super(context, 0);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent){
-            View view;
-
-            if(convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                view = inflater.inflate(R.layout.note_item, parent, false);
-            }
-            else {
-                view = convertView;
-            }
-
-            NoteItem noteItem = getItem(position);
-            TextView textView = (TextView)view.findViewById(R.id.note_title);
-            textView.setText(noteItem.title);
-
-            return view;
-        }
-
-    }
-    //
-    // end NoteListAdapter
-    //
-*/
 
     public NoteListFragment() {
         // Required empty public constructor
@@ -111,10 +71,11 @@ public class NoteListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_note_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_note_list, container, false);
 
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
         SQLiteDatabase db = helper.getReadableDatabase();
+        /*
         Cursor cursor = db.query(MySQLiteOpenHelper.TABLE_NOTE,
                 new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_TITLE},
                 null,
@@ -122,8 +83,14 @@ public class NoteListFragment extends ListFragment {
                 null,
                 null,
                 MySQLiteOpenHelper.COLUMN_DATE + " DESC");
+        */
+        Cursor cursor = getActivity().getContentResolver().query(
+                MyContentProvider.CONTENT_URI_NOTE,
+                new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_TITLE},
+                null, null,
+                MySQLiteOpenHelper.COLUMN_DATE + " DESC");
         this.mCursor = cursor;
-        ListView list = (ListView)view.findViewById(android.R.id.list);
+        ListView list = (ListView) view.findViewById(android.R.id.list);
         this.mAdapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.note_item,
                 cursor,
@@ -132,17 +99,11 @@ public class NoteListFragment extends ListFragment {
                 0);
 
         list.setAdapter(mAdapter);
+        getActivity().getSupportLoaderManager().initLoader(0, null, this);
+
         registerForContextMenu(list);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // TODO: better way to reflect db changes
-        mCursor.requery();
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -180,18 +141,23 @@ public class NoteListFragment extends ListFragment {
         switch (item.getItemId()) {
             case R.id.note_delete:
                 // delete selected note
+                /*
                 db.delete(
                         MySQLiteOpenHelper.TABLE_NOTE,
                         MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
                         null
                 );
-
-                mCursor.requery();
-                mAdapter.notifyDataSetChanged();
+                */
+                getActivity().getContentResolver().delete(
+                        MyContentProvider.CONTENT_URI_NOTE,
+                        MySQLiteOpenHelper.COLUMN_ID + " = " +  _id,
+                        null
+                );
 
                 return true;
 
             case R.id.note_to_todo:
+                /*
                 TextView titleText = (TextView)listItem.findViewById(R.id.note_title);
                 String title = titleText.getText().toString();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -217,9 +183,19 @@ public class NoteListFragment extends ListFragment {
                 } finally {
                     db.endTransaction();
                 }
+                */
+                //TextView idText = (TextView)listItem.findViewById(R.id.note_id);
+                //int _id = Integer.parseInt(idText.getText().toString());
 
-                mCursor.requery();
-                mAdapter.notifyDataSetChanged();
+                getActivity().getContentResolver().call(
+                        MyContentProvider.CONTENT_URI_NOTE,
+                        "convertNoteToTodo",
+                        ""+_id,
+                        null
+                );
+                //MyContentProvider provider = new MyContentProvider();
+                //provider.convertNoteToTodo(_id);
+
 
                 return true;
 
@@ -227,4 +203,24 @@ public class NoteListFragment extends ListFragment {
         return false;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(),
+                MyContentProvider.CONTENT_URI_NOTE,
+                null,
+                null,
+                null,
+                MySQLiteOpenHelper.COLUMN_DATE + " DESC");
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+        mAdapter.swapCursor(c);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursor) {
+        mAdapter.swapCursor(null);
+    }
 }

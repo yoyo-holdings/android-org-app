@@ -9,9 +9,10 @@ import android.net.Uri;
  * Created on 2016/04/09.
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
-//    public static final Uri CONTENT_URI = Uri.parse("content://com.example.notoandtodo/note");
+    public static final Uri CONTENT_URI_NOTE = Uri.parse("content://com.example.notoandtodo.provider/note");
+    public static final Uri CONTENT_URI_TODO = Uri.parse("content://com.example.notoandtodo.provider/todo");
     private static final String DB_NAME = "noteandtodo.db";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 9;
     public static final String TABLE_NOTE  = "note";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TITLE = "title";

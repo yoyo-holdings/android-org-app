@@ -86,7 +86,11 @@ public class NoteCreateActivity extends AppCompatActivity
             values.put(MySQLiteOpenHelper.COLUMN_TITLE, title);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-            db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
+            //db.insertOrThrow(MySQLiteOpenHelper.TABLE_NOTE, null, values);
+            getContentResolver().insert(
+                    MyContentProvider.CONTENT_URI_NOTE,
+                    values
+            );
             finish();
         } else {
             // update existing record
@@ -94,11 +98,19 @@ public class NoteCreateActivity extends AppCompatActivity
             values.put(MySQLiteOpenHelper.COLUMN_TITLE, title);
             values.put(MySQLiteOpenHelper.COLUMN_TEXT, text);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
+            /*
             db.update(
                     MySQLiteOpenHelper.TABLE_NOTE,
                     values,
                     MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
                     null);
+            */
+            getContentResolver().update(
+                    MyContentProvider.CONTENT_URI_NOTE,
+                    values,
+                    MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
+                    null
+            );
             finish();
         }
     }

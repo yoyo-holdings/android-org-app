@@ -20,6 +20,11 @@
         </activity>
         <activity android:name=".NoteCreateActivity" />
         <activity android:name=".TodoCreateActivity"></activity>
+        <provider
+            android:authorities="com.example.noteandtodo.MyContentProvider"
+            android:name="com.example.noteandtodo.MyContentProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>

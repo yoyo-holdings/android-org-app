@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -33,7 +37,9 @@ import java.util.List;
  * Use the {@link TodoListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TodoListFragment extends ListFragment {
+public class TodoListFragment extends ListFragment
+        implements LoaderCallbacks<Cursor>
+{
 
     public static final String EXTRA_ID = "_ID";
 
@@ -108,6 +114,7 @@ public class TodoListFragment extends ListFragment {
 
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
         SQLiteDatabase db = helper.getReadableDatabase();
+        /*
         Cursor cursor = db.query(
                 MySQLiteOpenHelper.TABLE_TODO,
                 new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_DONE},
@@ -115,6 +122,13 @@ public class TodoListFragment extends ListFragment {
                 null,
                 null,
                 null,
+                MySQLiteOpenHelper.COLUMN_DATE + " DESC");
+        */
+        Cursor cursor = getActivity().getContentResolver().query(
+                MyContentProvider.CONTENT_URI_TODO,
+                //new String[]{MySQLiteOpenHelper.COLUMN_ID, MySQLiteOpenHelper.COLUMN_ENTRY, MySQLiteOpenHelper.COLUMN_DONE},
+                null,
+                null, null,
                 MySQLiteOpenHelper.COLUMN_DATE + " DESC");
         this.mCursor = cursor;
         ListView listView = (ListView)view.findViewById(android.R.id.list);
@@ -139,17 +153,11 @@ public class TodoListFragment extends ListFragment {
             }
         });
         listView.setAdapter(mAdapter);
+        getActivity().getSupportLoaderManager().initLoader(1,null, this);
+
         registerForContextMenu(listView);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // TODO: better way than deprecated method
-        mCursor.requery();
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -172,14 +180,14 @@ public class TodoListFragment extends ListFragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // avoid reactinc other fragments' context menu
-        if(getUserVisibleHint() == false) {
+        if (getUserVisibleHint() == false) {
             return false;
         }
 
         // get _id
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         View listItem = info.targetView;
-        TextView idText = (TextView)listItem.findViewById(R.id.todo_id);
+        TextView idText = (TextView) listItem.findViewById(R.id.todo_id);
         int _id = Integer.parseInt(idText.getText().toString());
 
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
@@ -188,18 +196,24 @@ public class TodoListFragment extends ListFragment {
         switch (item.getItemId()) {
             case R.id.todo_delete:
                 // delete selected todo
+                /*
                 db.delete(
                         MySQLiteOpenHelper.TABLE_TODO,
                         MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
                         null
                 );
-
-                mCursor.requery();
-                mAdapter.notifyDataSetChanged();
+                */
+                getActivity().getContentResolver().delete(
+                        MyContentProvider.CONTENT_URI_TODO,
+                        MySQLiteOpenHelper.COLUMN_ID + " = " + _id,
+                        null
+                );
 
                 return true;
+
             case R.id.todo_to_note:
-                TextView entryText = (TextView)listItem.findViewById(R.id.todo_entry);
+                /*
+                TextView entryText = (TextView) listItem.findViewById(R.id.todo_entry);
                 String entry = entryText.getText().toString();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date();
@@ -227,10 +241,38 @@ public class TodoListFragment extends ListFragment {
 
                 mCursor.requery();
                 mAdapter.notifyDataSetChanged();
+                */
+                getActivity().getContentResolver().call(
+                        MyContentProvider.CONTENT_URI_TODO,
+                        "convertTodoToNote",
+                        ""+_id,
+                        null
+                );
 
                 return true;
         }
 
         return false;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(),
+                MyContentProvider.CONTENT_URI_TODO,
+                null,
+                null,
+                null,
+                MySQLiteOpenHelper.COLUMN_DATE + " DESC");
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+        mAdapter.swapCursor(c);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursor) {
+        mAdapter.swapCursor(null);
     }
 }

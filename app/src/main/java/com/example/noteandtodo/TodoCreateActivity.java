@@ -72,7 +72,11 @@ public class TodoCreateActivity extends AppCompatActivity
             values.put(MySQLiteOpenHelper.COLUMN_ENTRY, entry);
             values.put(MySQLiteOpenHelper.COLUMN_DONE, 0);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
-            db.insertOrThrow(MySQLiteOpenHelper.TABLE_TODO, null, values);
+            //db.insertOrThrow(MySQLiteOpenHelper.TABLE_TODO, null, values);
+            getContentResolver().insert(
+                    MyContentProvider.CONTENT_URI_TODO,
+                    values
+            );
             finish();
         }
         else {
@@ -80,11 +84,19 @@ public class TodoCreateActivity extends AppCompatActivity
             ContentValues values = new ContentValues();
             values.put(MySQLiteOpenHelper.COLUMN_ENTRY, entry);
             values.put(MySQLiteOpenHelper.COLUMN_DATE, strDate);
+            /*
             db.update(
                     MySQLiteOpenHelper.TABLE_TODO,
                     values,
                     MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
                     null);
+            */
+            getContentResolver().update(
+                    MyContentProvider.CONTENT_URI_TODO,
+                    values,
+                    MySQLiteOpenHelper.COLUMN_ID + " = " + this._id,
+                    null
+            );
             finish();
         }
     }
