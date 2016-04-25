@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yoyotest.h2owl.h2wltestapp">
+    package="com.yoyotest.h2owl.h2owltestapp">
 
     <application
         android:allowBackup="true"

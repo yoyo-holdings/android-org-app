@@ -1,4 +1,4 @@
-package com.yoyotest.h2owl.h2wltestapp;
+package com.yoyotest.h2owl.h2owltestapp;
 
 import android.content.Context;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
+import com.yoyotest.h2owl.h2owltestapp.model.MyNote;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;

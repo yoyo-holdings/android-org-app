@@ -1,4 +1,4 @@
-package com.yoyotest.h2owl.h2wltestapp.model;
+package com.yoyotest.h2owl.h2owltestapp.model;
 
 import io.realm.RealmObject;
 

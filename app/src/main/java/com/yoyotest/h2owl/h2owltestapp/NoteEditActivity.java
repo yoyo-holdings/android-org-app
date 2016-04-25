@@ -1,4 +1,4 @@
-package com.yoyotest.h2owl.h2wltestapp;
+package com.yoyotest.h2owl.h2owltestapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
-import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
+import com.yoyotest.h2owl.h2owltestapp.model.MyNote;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

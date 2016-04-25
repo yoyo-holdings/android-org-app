@@ -1,4 +1,4 @@
-package com.yoyotest.h2owl.h2wltestapp;
+package com.yoyotest.h2owl.h2owltestapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.yoyotest.h2owl.h2wltestapp.model.MyRealmMigration;
+import com.yoyotest.h2owl.h2owltestapp.model.MyRealmMigration;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.yoyotest.h2owl.h2wltestapp;
+package com.yoyotest.h2owl.h2owltestapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
+import com.yoyotest.h2owl.h2owltestapp.model.MyNote;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

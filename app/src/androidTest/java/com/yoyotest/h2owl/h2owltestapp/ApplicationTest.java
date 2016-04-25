@@ -1,4 +1,4 @@
-package com.yoyotest.h2owl.h2wltestapp;
+package com.yoyotest.h2owl.h2owltestapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
