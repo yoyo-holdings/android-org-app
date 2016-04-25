@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
+
+import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -14,8 +16,8 @@ import butterknife.OnClick;
  */
 public class NoteEditActivity extends Activity {
 
-    private Button buttonSave;
-    private Button buttonCancel;
+    private EditText noteTitle;
+    private EditText noteContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +25,15 @@ public class NoteEditActivity extends Activity {
         setContentView(R.layout.note_edit);
         ButterKnife.bind(this);
 
-        this.buttonSave = (Button)findViewById(R.id.button_note_save);
-        this.buttonCancel = (Button)findViewById(R.id.button_note_cancel);
+        this.noteTitle = (EditText) findViewById(R.id.note_edit_title);
+        this.noteContent = (EditText) findViewById(R.id.note_edit_content);
     }
 
     @OnClick(R.id.button_note_save) public void onClickButtonSave(View view) {
 
+        MyNote note = new MyNote();
+        note.title = noteTitle.getText().toString();
+        note.content = noteContent.getText().toString();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -37,4 +42,5 @@ public class NoteEditActivity extends Activity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
 }
