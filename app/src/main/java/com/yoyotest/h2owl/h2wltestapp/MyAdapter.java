@@ -3,6 +3,7 @@ package com.yoyotest.h2owl.h2wltestapp;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -17,7 +18,9 @@ import io.realm.RealmBaseAdapter;
 public class MyAdapter extends RealmBaseAdapter<MyNote> implements ListAdapter {
 
     private static class ViewHolder {
+        CheckBox noteCheckBox;
         TextView noteTitle;
+        TextView noteId;
     }
 
     public MyAdapter(Context context, OrderedRealmCollection<MyNote> realmResults) {
@@ -28,16 +31,21 @@ public class MyAdapter extends RealmBaseAdapter<MyNote> implements ListAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.noteTitle = (TextView) convertView.findViewById(android.R.id.text1);
+            viewHolder.noteId = (TextView) convertView.findViewById(R.id.note_id);
+            viewHolder.noteTitle = (TextView) convertView.findViewById(R.id.note_title);
+            viewHolder.noteCheckBox = (CheckBox) convertView.findViewById(R.id.checkbox_done);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         MyNote item = adapterData.get(position);
+        viewHolder.noteId.setText(String.valueOf(item.id));
         viewHolder.noteTitle.setText(item.title);
+        viewHolder.noteCheckBox.setVisibility(item.type == 1 ? View.VISIBLE : View.GONE);
+        viewHolder.noteCheckBox.setChecked(item.state == 1);
         return convertView;
     }
 

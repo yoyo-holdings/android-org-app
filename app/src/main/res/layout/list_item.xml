@@ -15,17 +15,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/todo_entry"
+        android:id="@+id/note_title"
         android:layout_toRightOf="@id/checkbox_done"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:textSize="18sp"/>
 
+
     <!-- put note _id in hidden TextView -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/todo_id"
+        android:id="@+id/note_id"
         android:visibility="gone"/>
 
 </RelativeLayout>

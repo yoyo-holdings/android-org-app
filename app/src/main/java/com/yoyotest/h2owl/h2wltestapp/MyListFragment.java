@@ -2,17 +2,19 @@ package com.yoyotest.h2owl.h2wltestapp;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
-import com.yoyotest.h2owl.h2wltestapp.model.MyRealmMigration;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -23,7 +25,6 @@ public class MyListFragment extends ListFragment {
     public static final String EXTRA_POSITION = "position";
 
     private Realm realm;
-    private RealmConfiguration realmConfiguration;
 
     private int position;
 
@@ -45,27 +46,69 @@ public class MyListFragment extends ListFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_main, container, false);
 
-        realmConfiguration = new RealmConfiguration.Builder(this.getActivity())
-                .schemaVersion(0)
-                .migration(new MyRealmMigration())
-                .build();
-        // Open the Realm for the UI thread.
-        realm = Realm.getInstance(realmConfiguration);
+        realm = MainActivity.getRealm(this.getActivity());
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
         RealmResults<MyNote> myNotes = realm.where(MyNote.class).findAll();
         MyAdapter adapter = new MyAdapter(this.getContext(),myNotes.sort("date", Sort.DESCENDING));
         listView.setAdapter(adapter);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                return true;
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                return;
             }
         });
 
         registerForContextMenu(listView);
 
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu_note, menu);
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // avoid reacting other fragments' context menu
+        if(getUserVisibleHint() == false){
+            return false;
+        }
+        // get longClicked note's _id
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        View listItem = info.targetView;
+        TextView idText = (TextView)listItem.findViewById(R.id.note_id);
+        int noteId = Integer.parseInt(idText.getText().toString());
+        MyNote note = realm.where(MyNote.class).equalTo("id",noteId).findFirst();
+
+        switch (item.getItemId()) {
+            case R.id.note_delete:
+                // delete selected note
+                realm.beginTransaction();
+                note.deleteFromRealm();
+                realm.commitTransaction();
+                return true;
+
+            case R.id.note_to_todo:
+                // convert note to todo
+                realm.beginTransaction();
+                note.type = (note.type+1) % 2;
+                realm.commitTransaction();
+
+                return true;
+
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close(); // Remember to close Realm when done.
     }
 }

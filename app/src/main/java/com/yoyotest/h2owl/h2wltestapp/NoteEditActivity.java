@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
-import com.yoyotest.h2owl.h2wltestapp.model.MyRealmMigration;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,12 +54,7 @@ public class NoteEditActivity extends Activity {
         // Apply the adapter to the spinner
         this.groupSpinner.setAdapter(adapter);
 
-        realmConfiguration = new RealmConfiguration.Builder(this)
-                .schemaVersion(0)
-                .migration(new MyRealmMigration())
-                .build();
-        // Open the Realm for the UI thread.
-        realm = Realm.getInstance(realmConfiguration);
+        realm = MainActivity.getRealm(this);
     }
 
     @Override

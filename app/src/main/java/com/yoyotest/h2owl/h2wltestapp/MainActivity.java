@@ -1,5 +1,6 @@
 package com.yoyotest.h2owl.h2wltestapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,10 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.yoyotest.h2owl.h2wltestapp.model.MyRealmMigration;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -177,5 +182,14 @@ public class MainActivity extends AppCompatActivity
             }
             return null;
         }
+    }
+
+    public static Realm getRealm(Activity activity) {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(activity)
+                .schemaVersion(0)
+                .migration(new MyRealmMigration())
+                .build();
+        // Open the Realm for the UI thread.
+        return Realm.getInstance(realmConfiguration);
     }
 }
