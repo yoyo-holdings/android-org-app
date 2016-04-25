@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.yoyotest.h2owl.h2wltestapp.model.MyNote;
 
@@ -17,12 +20,17 @@ import io.realm.RealmConfiguration;
  * Created by h2owl on 16/04/25.
  */
 public class NoteEditActivity extends Activity {
+    public static final int STATE_DEFAULT  = 0;
+    public static final int STATE_FINISHED = 1;
+    public static final int STATE_PENDING  = 2;
 
     private Realm realm;
     private RealmConfiguration realmConfiguration;
 
     private EditText noteTitle;
     private EditText noteContent;
+    private Spinner groupSpinner;
+    private Switch taskSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,16 @@ public class NoteEditActivity extends Activity {
 
         this.noteTitle = (EditText) findViewById(R.id.note_edit_title);
         this.noteContent = (EditText) findViewById(R.id.note_edit_content);
+        this.groupSpinner = (Spinner) findViewById(R.id.note_edit_group_spinner);
+        this.taskSwitch = (Switch) findViewById(R.id.note_edit_switch_task);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.array_spinner_note_groups_default, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        this.groupSpinner.setAdapter(adapter);
 
         realmConfiguration = new RealmConfiguration.Builder(this).build();
         // Open the Realm for the UI thread.
@@ -47,11 +65,15 @@ public class NoteEditActivity extends Activity {
     @OnClick(R.id.button_note_save) public void onClickButtonSave(View view) {
 
 //        MyNote note = new MyNote();
-        int s = realm.allObjects(MyNote.class).size();
+        int num = realm.allObjects(MyNote.class).size();
         // All writes must be wrapped in a transaction to facilitate safe multi threading
         realm.beginTransaction();
         MyNote note = realm.createObject(MyNote.class);
-        note.id = s + 1;
+        note.id = num + 1;
+        note.group = 0;
+        note.type = this.taskSwitch.isChecked() ? 1 : 0;
+        note.date = System.currentTimeMillis();
+        note.state = STATE_DEFAULT;
         note.title = noteTitle.getText().toString();
         note.content = noteContent.getText().toString();
         // When the transaction is committed, all changes a synced to disk.

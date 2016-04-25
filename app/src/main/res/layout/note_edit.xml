@@ -18,6 +18,16 @@
         android:layout_gravity="center_horizontal"
         android:maxLines="1" />
 
+    <Switch
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Make it a task"
+        android:id="@+id/note_edit_switch_task"
+        android:layout_gravity="center_horizontal"
+        android:paddingRight="16sp"
+        android:layout_weight="0.17"
+        android:checked="false" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +38,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
+        android:id="@+id/note_edit_group_spinner"
         android:layout_gravity="center_horizontal" />
 
     <TextView

@@ -7,7 +7,10 @@ import io.realm.RealmObject;
  */
 public class MyNote extends RealmObject{
     public long id;
+    public int group;
+    public long date;
     public int type;
+    public int state;
     public String title;
     public String content;
 }
