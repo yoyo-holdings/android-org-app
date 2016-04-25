@@ -26,6 +26,7 @@ public class MyRealmMigration implements RealmMigration {
 
     }
 
+    // http://sakebook.hatenablog.com/entry/2016/02/07/050930
     @Override
     public boolean equals(Object o) {
         return o instanceof MyRealmMigration;

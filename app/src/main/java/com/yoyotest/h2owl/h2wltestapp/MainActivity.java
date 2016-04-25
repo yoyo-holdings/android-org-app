@@ -13,11 +13,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity
      */
     private ViewPager mViewPager;
 
-    private ArrayList<PlaceholderFragment> placeHoldlerArray;
+    private ArrayList<MyListFragment> placeHoldlerArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +59,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        placeHoldlerArray = new ArrayList<PlaceholderFragment>();
+        placeHoldlerArray = new ArrayList<MyListFragment>();
         for(int position: new int[]{0,1,2}){
-            placeHoldlerArray.add(PlaceholderFragment.newInstance(position + 1));
+            MyListFragment fragment = new MyListFragment();
+            placeHoldlerArray.add(fragment);
         }
 
         // Create the adapter that will return a fragment for each of the three
@@ -178,43 +177,5 @@ public class MainActivity extends AppCompatActivity
             }
             return null;
         }
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        private MySQLiteOpenHelper mySQLiteOpenHelper;
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.content_main, container, false);
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-
-            return rootView;
-        }
-
     }
 }

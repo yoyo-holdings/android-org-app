@@ -3,7 +3,10 @@ package com.yoyotest.h2owl.h2wltestapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -67,6 +70,13 @@ public class NoteEditActivity extends Activity {
     }
 
     @OnClick(R.id.button_note_save) public void onClickButtonSave(View view) {
+        String noteTitleStr = noteTitle.getText().toString();
+        if (noteTitleStr.isEmpty() || noteTitleStr.equals("")) {
+            closeKeyBoard(noteTitle);
+            Snackbar.make(view, "Please enter the title.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return;
+        }
 
 //        MyNote note = new MyNote();
         int num = realm.allObjects(MyNote.class).size();
@@ -92,4 +102,10 @@ public class NoteEditActivity extends Activity {
         startActivity(intent);
     }
 
+    private void closeKeyBoard(EditText editText) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(this.getApplicationContext().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
 }
