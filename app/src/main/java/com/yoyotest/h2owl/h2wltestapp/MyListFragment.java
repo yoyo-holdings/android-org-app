@@ -27,6 +27,8 @@ public class MyListFragment extends ListFragment {
 
     private Realm realm;
 
+    private ListView listView;
+
     private int position;
 
     public MyListFragment() {
@@ -49,14 +51,20 @@ public class MyListFragment extends ListFragment {
 
         realm = MainActivity.getRealm(this.getActivity());
 
-        ListView listView = (ListView) view.findViewById(android.R.id.list);
+        listView = (ListView) view.findViewById(android.R.id.list);
         RealmResults<MyNote> myNotes = realm.where(MyNote.class).findAll();
-        MyAdapter adapter = new MyAdapter(this.getContext(),myNotes.sort("date", Sort.DESCENDING));
+        MyAdapter adapter = new MyAdapter(this.getContext(),myNotes.sort("date", Sort.DESCENDING),this);
         listView.setAdapter(adapter);
 
         registerForContextMenu(listView);
 
         return view;
+    }
+
+    public void onListCheckBoxCheckedChangeHandler(MyNote note) {
+        realm.beginTransaction();
+        note.state = (note.state + 1) % 2;
+        realm.commitTransaction();
     }
 
     @Override
