@@ -1,5 +1,6 @@
 package com.yoyotest.h2owl.h2wltestapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
@@ -53,17 +54,18 @@ public class MyListFragment extends ListFragment {
         MyAdapter adapter = new MyAdapter(this.getContext(),myNotes.sort("date", Sort.DESCENDING));
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                return;
-            }
-        });
-
         registerForContextMenu(listView);
 
         return view;
+    }
+
+    @Override
+    public void onListItemClick(ListView listView, View view, int i, long l) {
+        super.onListItemClick(listView, view, i, l);
+        MyNote listItem = (MyNote)listView.getItemAtPosition(i);
+        Intent intent = new Intent(this.getActivity(), NoteEditActivity.class);
+        intent.putExtra(NoteEditActivity.EXTRA_NOTE_ID,listItem.id);
+        this.startActivity(intent);
     }
 
     @Override

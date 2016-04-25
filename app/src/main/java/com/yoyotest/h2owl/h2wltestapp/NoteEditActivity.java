@@ -23,12 +23,14 @@ import io.realm.RealmConfiguration;
  * Created by h2owl on 16/04/25.
  */
 public class NoteEditActivity extends Activity {
+    public static final String EXTRA_NOTE_ID = "note_id";
     public static final int STATE_DEFAULT  = 0;
     public static final int STATE_FINISHED = 1;
     public static final int STATE_PENDING  = 2;
 
     private Realm realm;
     private RealmConfiguration realmConfiguration;
+    private MyNote note;
 
     private EditText noteTitle;
     private EditText noteContent;
@@ -55,6 +57,16 @@ public class NoteEditActivity extends Activity {
         this.groupSpinner.setAdapter(adapter);
 
         realm = MainActivity.getRealm(this);
+
+        Intent intent = getIntent();
+        long id = intent.getLongExtra(EXTRA_NOTE_ID, -1);
+
+        if (id != -1) {
+            note = realm.where(MyNote.class).equalTo("id",id).findFirst();
+            this.noteTitle.setText(note.title);
+            this.noteContent.setText(note.content);
+            this.taskSwitch.setChecked(note.type == 1);
+        }
     }
 
     @Override
@@ -72,16 +84,17 @@ public class NoteEditActivity extends Activity {
             return;
         }
 
-//        MyNote note = new MyNote();
         int num = realm.allObjects(MyNote.class).size();
         // All writes must be wrapped in a transaction to facilitate safe multi threading
         realm.beginTransaction();
-        MyNote note = realm.createObject(MyNote.class);
-        note.id = num + 1;
+        if (note == null) {
+            note = realm.createObject(MyNote.class);
+            note.id = num + 1;
+            note.state = STATE_DEFAULT;
+        }
         note.group = 0;
         note.type = this.taskSwitch.isChecked() ? 1 : 0;
         note.date = System.currentTimeMillis();
-        note.state = STATE_DEFAULT;
         note.title = noteTitle.getText().toString();
         note.content = noteContent.getText().toString();
         // When the transaction is committed, all changes a synced to disk.
