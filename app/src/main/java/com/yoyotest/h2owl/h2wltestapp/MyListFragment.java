@@ -14,6 +14,7 @@ import com.yoyotest.h2owl.h2wltestapp.model.MyRealmMigration;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by h2owl on 16/04/25.
@@ -53,7 +54,7 @@ public class MyListFragment extends ListFragment {
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
         RealmResults<MyNote> myNotes = realm.where(MyNote.class).findAll();
-        MyAdapter adapter = new MyAdapter(this.getContext(),myNotes);
+        MyAdapter adapter = new MyAdapter(this.getContext(),myNotes.sort("date", Sort.DESCENDING));
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
