@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.gigamole.library.NavigationTabBar;
@@ -20,6 +18,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import yoyo_holdings.com.androidorgapp.R;
+import yoyo_holdings.com.androidorgapp.features.createupdate.UpsertNotesFragment;
 import yoyo_holdings.com.androidorgapp.features.notes.NotesFragment;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -36,7 +35,7 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_navigation_activity);
+        setContentView(R.layout.tab_navigation_act);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
@@ -47,7 +46,11 @@ public class NavigationActivity extends AppCompatActivity {
         vpHorizontalNtb.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return NotesFragment.newInstance();
+                switch (position) {
+                    case 0: return NotesFragment.newInstance();
+                    case 1: return UpsertNotesFragment.newInstance();
+                    default: return NotesFragment.newInstance();
+                }
             }
 
             @Override

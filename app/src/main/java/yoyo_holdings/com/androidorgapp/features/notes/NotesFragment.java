@@ -6,15 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import yoyo_holdings.com.androidorgapp.ApplicationModule;
 import yoyo_holdings.com.androidorgapp.R;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +80,7 @@ public class NotesFragment extends Fragment implements NotesContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notes, container, false);
+        View view = inflater.inflate(R.layout.notes_frag, container, false);
         ButterKnife.bind(this, view);
         itemList.setAdapter(mListAdapter);
         return view;
