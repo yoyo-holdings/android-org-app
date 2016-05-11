@@ -34,5 +34,4 @@ public class NotesActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.fragmentContainer);
         }
     }
-
 }

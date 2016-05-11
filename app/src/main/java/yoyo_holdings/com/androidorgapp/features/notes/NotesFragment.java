@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
+import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 import yoyo_holdings.com.androidorgapp.data.source.DaggerEntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
@@ -30,10 +32,8 @@ import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
  */
 public class NotesFragment extends Fragment implements NotesContract.View {
 
-//    @Bind(R.id.product_list)
-//    ListView productList;
-//    @Bind(R.id.loading)
-//    RotateLoading loading;
+    @Bind(R.id.item_list)
+    ListView itemList;
     private ResultsAdapter mListAdapter;
     private NotesContract.UserActionsListener mActionsListener;
     private EntryRepositoryComponent entryRepositoryComponent;
@@ -66,7 +66,19 @@ public class NotesFragment extends Fragment implements NotesContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mListAdapter = new ResultsAdapter(new ArrayList<Entry>(0), mItemListener);
+        ArrayList<Entry> arrayList = new ArrayList<Entry>();
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+        arrayList.add(new EntryEntity());
+//        mListAdapter = new ResultsAdapter(new ArrayList<Entry>(0), mItemListener);
+        mListAdapter = new ResultsAdapter(arrayList, mItemListener);
     }
 
     @Override
@@ -74,7 +86,7 @@ public class NotesFragment extends Fragment implements NotesContract.View {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
         ButterKnife.bind(this, view);
-//        productList.setAdapter(mListAdapter);
+        itemList.setAdapter(mListAdapter);
         return view;
 
     }
