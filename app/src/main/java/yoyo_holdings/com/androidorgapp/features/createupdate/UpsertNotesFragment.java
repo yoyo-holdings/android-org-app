@@ -137,8 +137,12 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
-                title.setText("");
-                knife.setText("");
+                if (!isEditMode) {
+                    title.setText("");
+                    knife.setText("");
+                } else {
+                    getActivity().finish();
+                }
             }
         });
     }
