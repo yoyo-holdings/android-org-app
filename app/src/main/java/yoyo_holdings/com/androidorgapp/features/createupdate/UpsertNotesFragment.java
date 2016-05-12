@@ -3,6 +3,7 @@ package yoyo_holdings.com.androidorgapp.features.createupdate;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,13 +59,14 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
     private UpsertNotesContract.UserActionsListener mActionsListener;
     private EntryRepositoryComponent entryRepositoryComponent;
 
-    private Entry entry;
+    private EntryEntity entry;
+    private boolean isEditMode;
 
     public UpsertNotesFragment() {
         // Requires empty public constructor
     }
 
-    public static UpsertNotesFragment newInstance(Entry entry) {
+    public static UpsertNotesFragment newInstance(EntryEntity entry) {
         UpsertNotesFragment fragment = new UpsertNotesFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_ENTRY, entry);
@@ -96,6 +98,7 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
+            isEditMode = true;
             entry = getArguments().getParcelable(ARG_ENTRY);
         } else {
             entry = new EntryEntity();
@@ -107,8 +110,16 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.upsert_note_frag, container, false);
         ButterKnife.bind(this, view);
-        return view;
 
+        if (entry != null) {
+            if (!TextUtils.isEmpty(entry.getTitle())) {
+                title.setText(entry.getTitle());
+            }
+            if (!TextUtils.isEmpty(entry.getNote())) {
+                knife.fromHtml(entry.getNote());
+            }
+        }
+        return view;
     }
 
     @Override
@@ -123,14 +134,22 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
 
     @Override
     public void showSaveEntryDone() {
-        Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
-        title.setText("");
-        knife.setText("");
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
+                title.setText("");
+                knife.setText("");
+            }
+        });
     }
 
     @Override
     public void showSaveEntryError() {
-        Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @OnClick({R.id.bold, R.id.italic, R.id.underline, R.id.strikethrough, R.id.bullet, R.id.quote, R.id.link, R.id.clear})
@@ -166,6 +185,10 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
     public void onClick() {
         entry.setTitle(title.getText().toString());
         entry.setNote(knife.toHtml());
+
+        if (!isEditMode) {
+            entry.setId(0);
+        }
 
         BottomSheetDialogFragment bottomSheetDialogFragment = new BottomSheetDialogFragment();
         bottomSheetDialogFragment.setListener(entry, mActionsListener);

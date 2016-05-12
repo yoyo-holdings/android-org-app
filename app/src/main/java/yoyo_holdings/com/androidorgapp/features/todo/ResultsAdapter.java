@@ -1,11 +1,12 @@
-package yoyo_holdings.com.androidorgapp.features.notes;
+package yoyo_holdings.com.androidorgapp.features.todo;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import java.util.List;
 
@@ -25,10 +26,14 @@ import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 public class ResultsAdapter extends QueryAdapter<EntryEntity> {
 
     private final Context mContext;
+    @Bind(R.id.todo_entry)
+    CheckBox todoEntry;
+    @Bind(R.id.knife)
+    KnifeText knife;
     private List<Entry> items;
-    private NotesFragment.ResultItemListener mItemListener;
+    private TodoFragment.ResultItemListener mItemListener;
 
-    public ResultsAdapter(Context context, NotesFragment.ResultItemListener itemListener) {
+    public ResultsAdapter(Context context, TodoFragment.ResultItemListener itemListener) {
         super(EntryEntity.$TYPE);
         setList(items);
         mItemListener = itemListener;
@@ -46,9 +51,8 @@ public class ResultsAdapter extends QueryAdapter<EntryEntity> {
 
     @Override
     public Result<EntryEntity> performQuery() {
-        return ((BaseApp)mContext.getApplicationContext()).getDataSource().select(EntryEntity.class)
-                .where(EntryEntity.TODO.eq(false))
-                .orderBy(EntryEntity.ID.desc())
+        return ((BaseApp) mContext.getApplicationContext()).getDataSource().select(EntryEntity.class)
+                .where(EntryEntity.TODO.eq(true))
                 .get();
     }
 
@@ -59,7 +63,7 @@ public class ResultsAdapter extends QueryAdapter<EntryEntity> {
 
         if (rowView == null) {
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-            rowView = inflater.inflate(R.layout.note_item, viewGroup, false);
+            rowView = inflater.inflate(R.layout.todo_item, viewGroup, false);
             viewHolder = new ViewHolder(rowView);
             rowView.setTag(viewHolder);
         } else {
@@ -71,8 +75,16 @@ public class ResultsAdapter extends QueryAdapter<EntryEntity> {
                 viewHolder.knife.fromHtml(entry.getNote());
             }
             if (!TextUtils.isEmpty(entry.getTitle())) {
-                viewHolder.title.setText(entry.getTitle());
+                viewHolder.todoEntry.setText(entry.getTitle());
             }
+            viewHolder.todoEntry.setChecked(entry.isDone());
+            viewHolder.todoEntry.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    entry.setDone(isChecked);
+                    mItemListener.onSetDone(entry);
+                }
+            });
         }
 
         viewHolder.hitArea.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +93,6 @@ public class ResultsAdapter extends QueryAdapter<EntryEntity> {
                 mItemListener.onItemClicked(entry);
             }
         });
-
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,8 +108,8 @@ public class ResultsAdapter extends QueryAdapter<EntryEntity> {
         KnifeText knife;
         @Bind(R.id.hit_area)
         View hitArea;
-        @Bind(R.id.title)
-        TextView title;
+        @Bind(R.id.todo_entry)
+        CheckBox todoEntry;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

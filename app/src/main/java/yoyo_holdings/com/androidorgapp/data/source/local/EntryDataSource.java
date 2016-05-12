@@ -29,6 +29,7 @@ public interface EntryDataSource {
 
     void getEntries(@NonNull LoadEntriesCallback callback);
     void addEntry(@NonNull Entry entry, AddEntryCallback callback);
+    void updateEntry(@NonNull Entry entry, AddEntryCallback callback);
     void removeEntry(@NonNull Entry entry, RemoveEntryCallback callback);
 
 }

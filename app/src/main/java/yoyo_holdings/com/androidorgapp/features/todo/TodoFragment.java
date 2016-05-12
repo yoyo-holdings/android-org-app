@@ -1,4 +1,4 @@
-package yoyo_holdings.com.androidorgapp.features.notes;
+package yoyo_holdings.com.androidorgapp.features.todo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,29 +16,30 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import yoyo_holdings.com.androidorgapp.R;
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
+import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 import yoyo_holdings.com.androidorgapp.data.source.DaggerEntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
 import yoyo_holdings.com.androidorgapp.features.createupdate.UpsertActivity;
 
 /**
- * Display a list of {@link yoyo_holdings.com.androidorgapp.data.model.Entry}s.
+ * Display a list of {@link Entry}s.
  */
-public class NotesFragment extends Fragment implements NotesContract.View {
+public class TodoFragment extends Fragment implements TodoContract.View {
 
     @Bind(R.id.item_list)
     ListView itemList;
     private ResultsAdapter mListAdapter;
-    private NotesContract.UserActionsListener mActionsListener;
+    private TodoContract.UserActionsListener mActionsListener;
     private EntryRepositoryComponent entryRepositoryComponent;
     private ExecutorService executor;
 
-    public NotesFragment() {
+    public TodoFragment() {
         // Requires empty public constructor
     }
 
-    public static NotesFragment newInstance() {
-        return new NotesFragment();
+    public static TodoFragment newInstance() {
+        return new TodoFragment();
     }
 
     @Override
@@ -50,8 +51,8 @@ public class NotesFragment extends Fragment implements NotesContract.View {
                 .build();
         entryRepositoryComponent.inject(this);
 
-        mActionsListener = DaggerNotesFragmentComponent.builder()
-                .notesPresenterModule(new NotesPresenterModule(this))
+        mActionsListener = DaggerTodoFragmentComponent.builder()
+                .todoPresenterModule(new TodoPresenterModule(this))
                 .entryRepositoryComponent(entryRepositoryComponent)
                 .build().getPresenter();
     }
@@ -100,7 +101,12 @@ public class NotesFragment extends Fragment implements NotesContract.View {
     }
 
     @Override
-    public void showEntryDetailsUi(Entry entry) {
+    public void showSaveEntryDone() {
+
+    }
+
+    @Override
+    public void showEditTodoUi(EntryEntity entry) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
         Intent intent = new Intent(getContext(), UpsertActivity.class);
@@ -108,17 +114,18 @@ public class NotesFragment extends Fragment implements NotesContract.View {
         startActivity(intent);
     }
 
-    @Override
-    public void showLoadingEntryError() {
-
-    }
     /**
      * Listener for clicks on tasks in the ListView.
      */
     ResultItemListener mItemListener = new ResultItemListener() {
         @Override
-        public void onItemClicked(Entry entry) {
-            mActionsListener.openEntryDetails(entry);
+        public void onItemClicked(EntryEntity entry) {
+            mActionsListener.editEntry(entry);
+        }
+
+        @Override
+        public void onSetDone(EntryEntity entry) {
+            mActionsListener.updateEntry(entry);
         }
     };
 
@@ -127,8 +134,7 @@ public class NotesFragment extends Fragment implements NotesContract.View {
     }
 
     public interface ResultItemListener {
-
-        void onItemClicked(Entry product);
-
+        void onItemClicked(EntryEntity entry);
+        void onSetDone(EntryEntity entry);
     }
 }

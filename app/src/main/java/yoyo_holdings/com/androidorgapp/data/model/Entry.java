@@ -14,6 +14,7 @@ import io.requery.Persistable;
 public interface Entry extends Parcelable, Persistable {
     @Key @Generated
     int getId();
+    void setId(int id);
 
     String getTitle();
     void setTitle(String title);

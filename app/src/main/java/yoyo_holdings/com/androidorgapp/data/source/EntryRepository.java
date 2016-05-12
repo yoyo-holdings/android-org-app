@@ -29,6 +29,11 @@ public class EntryRepository implements EntryDataSource {
     }
 
     @Override
+    public void updateEntry(@NonNull Entry entry, AddEntryCallback callback) {
+        entryDataSource.updateEntry(entry, callback);
+    }
+
+    @Override
     public void removeEntry(@NonNull Entry entry, RemoveEntryCallback callback) {
 
     }

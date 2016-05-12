@@ -1,10 +1,5 @@
 package yoyo_holdings.com.androidorgapp.features.createupdate;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
@@ -46,16 +41,31 @@ final class UpsertNotesPresenter implements UpsertNotesContract.UserActionsListe
 
     @Override
     public void saveEntry(Entry entry) {
-        entryRepository.addEntry(entry, new EntryDataSource.AddEntryCallback() {
-            @Override
-            public void onEntryAdded() {
-                view.showSaveEntryDone();
-            }
+        if (entry.getId() != 0) {
+            entryRepository.updateEntry(entry, new EntryDataSource.AddEntryCallback() {
+                @Override
+                public void onEntryAdded() {
+                    view.showSaveEntryDone();
+                }
 
-            @Override
-            public void onEntryAddFailed() {
-                view.showSaveEntryError();
-            }
-        });
+                @Override
+                public void onEntryAddFailed() {
+                    view.showSaveEntryError();
+                }
+            });
+        } else {
+            entryRepository.addEntry(entry, new EntryDataSource.AddEntryCallback() {
+                @Override
+                public void onEntryAdded() {
+                    view.showSaveEntryDone();
+                }
+
+                @Override
+                public void onEntryAddFailed() {
+                    view.showSaveEntryError();
+                }
+            });
+        }
+
     }
 }

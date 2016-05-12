@@ -67,12 +67,26 @@ public class EntryDataSourceImpl implements EntryDataSource {
     }
 
     @Override
-    public void removeEntry(@NonNull Entry entry, final RemoveEntryCallback callback) {
-        data.insert(entry)
+    public void updateEntry(@NonNull Entry entry, final AddEntryCallback callback) {
+        data.update(entry)
                 .toObservable()
                 .subscribe(new Action1<Entry>() {
                     @Override
                     public void call(Entry entry) {
+                        if (callback != null) {
+                            callback.onEntryAdded();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void removeEntry(@NonNull Entry entry, final RemoveEntryCallback callback) {
+        data.delete(entry)
+                .toObservable()
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
                         if (callback != null) {
                             callback.onEntryRemoved();
                         }

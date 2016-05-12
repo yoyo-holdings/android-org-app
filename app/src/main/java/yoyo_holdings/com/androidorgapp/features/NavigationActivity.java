@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import yoyo_holdings.com.androidorgapp.R;
 import yoyo_holdings.com.androidorgapp.features.createupdate.UpsertNotesFragment;
 import yoyo_holdings.com.androidorgapp.features.notes.NotesFragment;
+import yoyo_holdings.com.androidorgapp.features.todo.TodoFragment;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -45,6 +46,7 @@ public class NavigationActivity extends AppCompatActivity {
     private void initUi() {
 
         final NotesFragment notesFragment = NotesFragment.newInstance();
+        final TodoFragment todoFragment = TodoFragment.newInstance();
 
         vpHorizontalNtb.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -52,6 +54,7 @@ public class NavigationActivity extends AppCompatActivity {
                 switch (position) {
                     case 0: return notesFragment;
                     case 1: return UpsertNotesFragment.newInstance();
+                    case 2: return todoFragment;
                     default: return UpsertNotesFragment.newInstance();
                 }
             }
@@ -85,6 +88,8 @@ public class NavigationActivity extends AppCompatActivity {
                 navigationTabBar.getModels().get(position).hideBadge();
                 if (position == 0) {
                     notesFragment.update();
+                } else if (position == 2) {
+                    todoFragment.update();
                 }
             }
 
