@@ -47,6 +47,21 @@ final class TodoPresenter implements TodoContract.UserActionsListener {
     }
 
     @Override
+    public void removeEntry(EntryEntity entry) {
+        entryRepository.removeEntry(entry, new EntryDataSource.RemoveEntryCallback() {
+            @Override
+            public void onEntryRemoved() {
+                view.removeEntryDone();
+            }
+
+            @Override
+            public void onEntryRemoveFailed() {
+
+            }
+        });
+    }
+
+    @Override
     public void updateEntry(EntryEntity entry) {
         entryRepository.updateEntry(entry, new EntryDataSource.AddEntryCallback() {
             @Override

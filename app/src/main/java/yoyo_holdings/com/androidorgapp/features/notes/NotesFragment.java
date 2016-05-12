@@ -16,10 +16,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import yoyo_holdings.com.androidorgapp.R;
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
+import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 import yoyo_holdings.com.androidorgapp.data.source.DaggerEntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
 import yoyo_holdings.com.androidorgapp.features.createupdate.UpsertActivity;
+import yoyo_holdings.com.androidorgapp.util.BottomSheetContextMenu;
 
 /**
  * Display a list of {@link yoyo_holdings.com.androidorgapp.data.model.Entry}s.
@@ -112,6 +114,12 @@ public class NotesFragment extends Fragment implements NotesContract.View {
     public void showLoadingEntryError() {
 
     }
+
+    @Override
+    public void removeEntryDone() {
+        mListAdapter.queryAsync();
+    }
+
     /**
      * Listener for clicks on tasks in the ListView.
      */
@@ -120,6 +128,13 @@ public class NotesFragment extends Fragment implements NotesContract.View {
         public void onItemClicked(Entry entry) {
             mActionsListener.openEntryDetails(entry);
         }
+
+        @Override
+        public void showContextDialog(EntryEntity entry) {
+            BottomSheetContextMenu bottomSheetDialogFragment = new BottomSheetContextMenu();
+            bottomSheetDialogFragment.setNotesContractListener(entry, mActionsListener);
+            bottomSheetDialogFragment.show(getActivity().getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+        }
     };
 
     public void update() {
@@ -127,8 +142,7 @@ public class NotesFragment extends Fragment implements NotesContract.View {
     }
 
     public interface ResultItemListener {
-
         void onItemClicked(Entry product);
-
+        void showContextDialog(EntryEntity entry);
     }
 }

@@ -21,6 +21,7 @@ import yoyo_holdings.com.androidorgapp.data.source.DaggerEntryRepositoryComponen
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
 import yoyo_holdings.com.androidorgapp.features.createupdate.UpsertActivity;
+import yoyo_holdings.com.androidorgapp.util.BottomSheetContextMenu;
 
 /**
  * Display a list of {@link Entry}s.
@@ -114,6 +115,11 @@ public class TodoFragment extends Fragment implements TodoContract.View {
         startActivity(intent);
     }
 
+    @Override
+    public void removeEntryDone() {
+        mListAdapter.queryAsync();
+    }
+
     /**
      * Listener for clicks on tasks in the ListView.
      */
@@ -127,6 +133,13 @@ public class TodoFragment extends Fragment implements TodoContract.View {
         public void onSetDone(EntryEntity entry) {
             mActionsListener.updateEntry(entry);
         }
+
+        @Override
+        public void showContextDialog(EntryEntity entry) {
+            BottomSheetContextMenu bottomSheetDialogFragment = new BottomSheetContextMenu();
+            bottomSheetDialogFragment.setTodoContractListener(entry, mActionsListener);
+            bottomSheetDialogFragment.show(getActivity().getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+        }
     };
 
     public void update() {
@@ -136,5 +149,7 @@ public class TodoFragment extends Fragment implements TodoContract.View {
     public interface ResultItemListener {
         void onItemClicked(EntryEntity entry);
         void onSetDone(EntryEntity entry);
+
+        void showContextDialog(EntryEntity entry);
     }
 }

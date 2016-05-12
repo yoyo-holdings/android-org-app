@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
+import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepository;
+import yoyo_holdings.com.androidorgapp.data.source.local.EntryDataSource;
 
 /**
  * Created by aconcepcion on 5/12/16.
@@ -49,5 +51,20 @@ final class NotesPresenter implements NotesContract.UserActionsListener {
     @Override
     public void editEntry(@NonNull Entry entry) {
         view.showEntryDetailsUi(entry);
+    }
+
+    @Override
+    public void removeEntry(EntryEntity entry) {
+        entryRepository.removeEntry(entry, new EntryDataSource.RemoveEntryCallback() {
+            @Override
+            public void onEntryRemoved() {
+                view.removeEntryDone();
+            }
+
+            @Override
+            public void onEntryRemoveFailed() {
+
+            }
+        });
     }
 }

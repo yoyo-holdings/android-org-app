@@ -10,10 +10,12 @@ public interface TodoContract {
         void setProgressIndicator(boolean active);
         void showSaveEntryDone();
         void showEditTodoUi(EntryEntity entry);
+        void removeEntryDone();
     }
 
     interface UserActionsListener {
         void editEntry(EntryEntity entry);
+        void removeEntry(EntryEntity entry);
         void updateEntry(EntryEntity entry);
     }
 }

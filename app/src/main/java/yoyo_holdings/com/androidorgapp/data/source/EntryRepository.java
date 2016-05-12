@@ -35,6 +35,6 @@ public class EntryRepository implements EntryDataSource {
 
     @Override
     public void removeEntry(@NonNull Entry entry, RemoveEntryCallback callback) {
-
+        entryDataSource.removeEntry(entry, callback);
     }
 }

@@ -76,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity {
         models.add(new NavigationTabBar.Model(
                 ContextCompat.getDrawable(NavigationActivity.this, R.drawable.ic_clipboard_check), Color.parseColor(colors[2]), "ToDo"));
         navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(vpHorizontalNtb, 1);
+        navigationTabBar.setViewPager(vpHorizontalNtb, 0);
         navigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {

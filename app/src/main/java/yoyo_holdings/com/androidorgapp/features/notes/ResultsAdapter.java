@@ -82,10 +82,11 @@ public class ResultsAdapter extends QueryAdapter<EntryEntity> {
             }
         });
 
-        rowView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.hitArea.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                mItemListener.onItemClicked(entry);
+            public boolean onLongClick(View v) {
+                mItemListener.showContextDialog(entry);
+                return true;
             }
         });
 
