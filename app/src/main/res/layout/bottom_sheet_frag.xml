@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <LinearLayout android:id="@+id/option_note"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="?android:attr/selectableItemBackground"
+                      android:clickable="true"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/note_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                app:srcCompat="@drawable/ic_note_text" />
+
+            <TextView
+                android:id="@+id/note_text"
+                android:text="Save as Note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:textColor="#787878"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/option_todo"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="?android:attr/selectableItemBackground"
+                      android:clickable="true"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/todo_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                app:srcCompat="@drawable/ic_clipboard_check" />
+
+            <TextView
+                android:id="@+id/todo_text"
+                android:text="Save as ToDo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:textColor="#787878"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

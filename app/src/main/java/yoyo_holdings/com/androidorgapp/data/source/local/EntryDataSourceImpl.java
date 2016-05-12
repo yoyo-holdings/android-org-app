@@ -7,7 +7,7 @@ package yoyo_holdings.com.androidorgapp.data.source.local;
  */
 
 import android.support.annotation.NonNull;
-import javax.inject.Inject;
+
 import javax.inject.Singleton;
 
 import io.requery.Persistable;
@@ -16,6 +16,7 @@ import io.requery.rx.SingleEntityStore;
 import rx.Subscriber;
 import rx.functions.Action1;
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
+import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 
 @Singleton
 public class EntryDataSourceImpl implements EntryDataSource {
@@ -29,7 +30,11 @@ public class EntryDataSourceImpl implements EntryDataSource {
 
     @Override
     public void getEntries(@NonNull final LoadEntriesCallback callback) {
-        data.select(Entry.class).get().toSelfObservable().subscribe(new Subscriber<Result<Entry>>() {
+        data.select(Entry.class)
+        .orderBy(EntryEntity.ID.desc())
+        .get()
+        .toSelfObservable()
+        .subscribe(new Subscriber<Result<Entry>>() {
             @Override
             public void onCompleted() {
 

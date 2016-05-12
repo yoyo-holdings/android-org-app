@@ -6,8 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.dd.CircularProgressButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,6 +19,7 @@ import butterknife.OnClick;
 import io.github.mthli.knife.KnifeText;
 import yoyo_holdings.com.androidorgapp.R;
 import yoyo_holdings.com.androidorgapp.data.model.Entry;
+import yoyo_holdings.com.androidorgapp.data.model.EntryEntity;
 import yoyo_holdings.com.androidorgapp.data.source.DaggerEntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryComponent;
 import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
@@ -24,6 +29,7 @@ import yoyo_holdings.com.androidorgapp.data.source.EntryRepositoryModule;
  */
 public class UpsertNotesFragment extends Fragment implements UpsertNotesContract.View {
 
+    private static final String ARG_ENTRY = "ENTRY";
     @Bind(R.id.bold)
     ImageButton bold;
     @Bind(R.id.italic)
@@ -44,11 +50,26 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
     HorizontalScrollView tools;
     @Bind(R.id.knife)
     KnifeText knife;
+    @Bind(R.id.title)
+    EditText title;
+    @Bind(R.id.save)
+    CircularProgressButton save;
+
     private UpsertNotesContract.UserActionsListener mActionsListener;
     private EntryRepositoryComponent entryRepositoryComponent;
 
+    private Entry entry;
+
     public UpsertNotesFragment() {
         // Requires empty public constructor
+    }
+
+    public static UpsertNotesFragment newInstance(Entry entry) {
+        UpsertNotesFragment fragment = new UpsertNotesFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_ENTRY, entry);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public static UpsertNotesFragment newInstance() {
@@ -74,6 +95,11 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if (getArguments() != null) {
+            entry = getArguments().getParcelable(ARG_ENTRY);
+        } else {
+            entry = new EntryEntity();
+        }
     }
 
     @Override
@@ -88,7 +114,6 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override
@@ -98,12 +123,14 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
 
     @Override
     public void showSaveEntryDone() {
-
+        Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
+        title.setText("");
+        knife.setText("");
     }
 
     @Override
     public void showSaveEntryError() {
-
+        Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick({R.id.bold, R.id.italic, R.id.underline, R.id.strikethrough, R.id.bullet, R.id.quote, R.id.link, R.id.clear})
@@ -133,5 +160,15 @@ public class UpsertNotesFragment extends Fragment implements UpsertNotesContract
                 knife.clearFormats();
                 break;
         }
+    }
+
+    @OnClick(R.id.save)
+    public void onClick() {
+        entry.setTitle(title.getText().toString());
+        entry.setNote(knife.toHtml());
+
+        BottomSheetDialogFragment bottomSheetDialogFragment = new BottomSheetDialogFragment();
+        bottomSheetDialogFragment.setListener(entry, mActionsListener);
+        bottomSheetDialogFragment.show(getActivity().getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
     }
 }

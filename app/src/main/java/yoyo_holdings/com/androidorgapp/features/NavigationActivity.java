@@ -43,13 +43,16 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+
+        final NotesFragment notesFragment = NotesFragment.newInstance();
+
         vpHorizontalNtb.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
-                    case 0: return NotesFragment.newInstance();
+                    case 0: return notesFragment;
                     case 1: return UpsertNotesFragment.newInstance();
-                    default: return NotesFragment.newInstance();
+                    default: return UpsertNotesFragment.newInstance();
                 }
             }
 
@@ -80,6 +83,9 @@ public class NavigationActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(final int position) {
                 navigationTabBar.getModels().get(position).hideBadge();
+                if (position == 0) {
+                    notesFragment.update();
+                }
             }
 
             @Override
