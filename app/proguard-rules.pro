@@ -154,7 +154,11 @@
 -dontwarn java.sql.**
 -dontwarn io.requery.cache.**
 -dontwarn io.requery.rx.**
+-dontwarn io.requery.android.**
 -keepclassmembers enum io.requery.** {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keep class net.sqlcipher.** {*;}
+-dontskipnonpubliclibraryclassmembers
