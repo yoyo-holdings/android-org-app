@@ -1,0 +1,24 @@
+<resources>
+
+  <!--Main-->
+  <string name="app_name">Notepad</string>
+
+  <!--Main Menu-->
+  <string name="main_menu_legend">Legend</string>
+
+  <!--Notes Dialog -->
+  <string name="notes_dialog_hint_title">Title</string>
+  <string name="notes_dialog_hint_text">Text</string>
+
+  <!--Todos Dialog-->
+  <string name="todos_dialog_hint_text">Text</string>
+
+  <!--Notes List Item-->
+  <string name="notes_list_item_edit_mode_indicator_text">Tap to Edit</string>
+  <string name="notes_list_item_convert_mode_indicator_text">Tap to Convert</string>
+
+  <!--Todos List Item-->
+  <string name="todos_list_item_edit_mode_indicator_text">Tap to Edit</string>
+  <string name="todos_list_item_convert_mode_indicator_text">Tap to Convert</string>
+
+</resources>
