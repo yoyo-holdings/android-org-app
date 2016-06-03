@@ -68,5 +68,5 @@ and TODOs.
     Android application that can be built using the standard tooling:
 
     #+BEGIN_SRC sh
-      gradle clean assembleDebug
+      ./gradlew clean assembleDebug
     #+END_SRC
