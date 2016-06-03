@@ -38,6 +38,8 @@ and TODOs.
      vice versa.
   7. The release APK of the app should take up no more than 3MB of disk
      space.
+  8. The release APK should target Android devices running version 4.4
+     (KitKat) and up.
 
 * Questions
 
