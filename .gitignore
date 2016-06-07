@@ -1,0 +1,14 @@
+.DS_Store
+*.iml
+
+/.gradle/
+/local.properties
+build/
+
+/.idea/
+.idea/
+/build/
+/app/build/
+/AndEngine/build/
+crashlytics-build.properties
+
