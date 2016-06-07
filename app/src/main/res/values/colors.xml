@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796b</color>
+    <color name="colorPrimaryDarker">#004D40</color>
+    <color name="colorAccent">#ffc107</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <!-- Note colors -->
+    <color name="colorNote">#FFFFA5</color>
+    <color name="colorNote2">#FF8A80</color>
+    <color name="colorNote3">#FFe57F</color>
+    <color name="colorNote4">#B3E8FF</color>
+    <color name="colorNote5">#E7FFC0</color>
+
+    <array name="noteColors">
+        <item>@color/colorNote2</item>
+        <item>@color/colorNote3</item>
+        <item>@color/colorNote</item>
+        <item>@color/colorNote5</item>
+        <item>@color/colorNote4</item>
+    </array>
+</resources>

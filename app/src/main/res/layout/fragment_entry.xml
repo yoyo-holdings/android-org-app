@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context="com.syvlabs.organizr.ui.mainscreen.EntryFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorNote"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingRight="5dp"
+        app:titleTextColor="@android:color/white">
+
+        <TextView
+            android:id="@+id/text_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Entry"
+            android:textColor="@android:color/black"
+            android:textSize="17sp" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#11000000" />
+
+    <RelativeLayout
+        android:id="@+id/area_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_note"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="24dp"
+        android:paddingTop="16dp">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_todo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#BB000000"
+            app:buttonTint="#BB000000" />
+
+        <EditText
+            android:id="@+id/edit_todo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/check_todo"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif-light"
+            android:hint="To-do"
+            android:inputType="textCapSentences|text"
+            android:maxLines="1"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/area_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/area_todo"
+        android:background="@color/colorNote"
+        android:paddingBottom="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="10dp">
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif"
+            android:hint="Title"
+            android:inputType="text|textCapWords"
+            android:lines="1"
+            android:maxLines="1"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/edit_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_title"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif-light"
+            android:gravity="left"
+            android:hint="Note"
+            android:inputType="textCapSentences|textMultiLine"
+            android:lineSpacingExtra="1dp"
+            android:maxHeight="300dp"
+            android:minHeight="176dp"
+            android:scrollbars="vertical"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
