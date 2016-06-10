@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Android Org App</string>
+
+    <string name="main_activity_header">Your Notes and TODOs</string>
+
+    <string name="main_activity_notes">Notes</string>
+    <string name="main_activity_todos">TODOs</string>
+
+    <string name="main_activity_add_note">Add a Note</string>
+    <string name="main_activity_add_todo">Add a TODO</string>
+
+    <string name="view_more">View More</string>
+
+    <string name="hint_title">Title</string>
+    <string name="hint_text">Text</string>
+    <string name="hint_entry">Entry</string>
+
+    <string name="title_note_taking_new">New Note</string>
+    <string name="title_todo_new">New TODO</string>
+
+    <string name="title_note_taking_update">Update Note</string>
+    <string name="title_todo_update">Update TODO</string>
+
+    <string name="title_todo_convert">Convert to TODO</string>
+    <string name="title_note_convert">Convert to NOTE</string>
+
+    <string name="toast_note_success_deleted">Note successfuly deleted!</string>
+    <string name="toast_note_success_added">Note successfuly added!</string>
+    <string name="toast_note_success_updated">Note successfuly updated!</string>
+    <string name="toast_note_success_converted">Note successfuly converted to TODO!</string>
+
+    <string name="toast_todo_success_deleted">TODO successfuly deleted!</string>
+    <string name="toast_todo_success_added">TODO successfuly added!</string>
+    <string name="toast_todo_success_updated">TODO successfuly updated!</string>
+    <string name="toast_todo_success_converted">TODO successfuly converted to Note!</string>
+
+    <string name="label_no_note">No note yet. Add one!</string>
+    <string name="label_no_todo">No TODO yet. Add one!</string>
+
+    <string name="error_msg_cant_empty">%s field cannot be empty!</string>
+</resources>
