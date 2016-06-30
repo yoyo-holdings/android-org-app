@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS checklist (
+    _id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    entry TEXT NOT NULL,
+    checked INTEGER AS Boolean DEFAULT 0,
+    datetime INTEGER NOT NULL
+);
+
+select_all:
+SELECT * FROM checklist ORDER BY datetime DESC;
+
+drop_table:
+DROP TABLE IF EXISTS checklist;

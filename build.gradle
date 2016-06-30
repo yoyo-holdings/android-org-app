@@ -1,0 +1,28 @@
+apply from: "dependencies.gradle"
+
+buildscript {
+
+    apply from: "dependencies.gradle"
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath gradlePlugins.android
+        classpath gradlePlugins.apt
+        classpath gradlePlugins.retrolambda
+        classpath gradlePlugins.lombok
+        classpath gradlePlugins.sqldelight
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

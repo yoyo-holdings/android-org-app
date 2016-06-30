@@ -1,0 +1,74 @@
+apply plugin: "com.android.application"
+apply plugin: "com.neenbedankt.android-apt"
+apply plugin: "me.tatarka.retrolambda"
+apply plugin: "com.squareup.sqldelight"
+
+android {
+
+    compileSdkVersion configs.compileSDK
+    buildToolsVersion configs.buildToolVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId configs.applicationId
+        versionCode configs.code
+        versionName configs.name
+        minSdkVersion configs.minSDK
+        targetSdkVersion configs.targetSDK
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            zipAlignEnabled true
+            versionNameSuffix "-DEBUG"
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            zipAlignEnabled true
+            versionNameSuffix "-RELEASE"
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile libraries.supportAnnotations
+    compile libraries.supportDesign
+    compile libraries.supportAppCompat
+    compile libraries.supportRecyclerView
+    compile libraries.supportCardView
+
+    compile libraries.butterknife
+    apt libraries.butterknifeCompiler
+    compile libraries.dagger
+    apt libraries.daggerCompiler
+
+    compile libraries.sqlbrite
+    compile libraries.rxJava
+    compile libraries.rxAndroid
+    compile libraries.timber
+    compile libraries.autoValue
+    apt libraries.autoValueRedactedCompiler
+    apt libraries.autoValueParcelableCompiler
+
+    testCompile libraries.junit
+    testCompile libraries.mockitoCore
+    testCompile libraries.hamcrestCore
+}
