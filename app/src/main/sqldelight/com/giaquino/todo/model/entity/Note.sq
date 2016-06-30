@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS note (
+    _id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    text TEXT NOT NULL,
+    datetime INTEGER NOT NULL
+);
+
+select_all:
+SELECT * FROM note ORDER BY datetime DESC;
+
+drop_table:
+DROP TABLE IF EXISTS entry;
