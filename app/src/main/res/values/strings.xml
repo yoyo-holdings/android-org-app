@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Note and Todo</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="note_tab_title">NOTE</string>
+    <string name="todo_tab_title">TODO</string>
+    <string name="note_title_hint">Title</string>
+    <string name="note_text_hint">Text</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="todo_entry_hint">Entry</string>
+    <string name="note_to_todo">Convert to a TODO</string>
+    <string name="todo_to_note">Convert to a Note</string>
+</resources>

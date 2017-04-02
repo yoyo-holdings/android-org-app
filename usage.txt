@@ -1,0 +1,11 @@
+* Usage
+  - Create new Note/TODO
+    - Tap + button on Note/TODO tab.
+  - Read/Update
+    - Tap the list item and go to edit page.
+  - Delete
+    - Long tap on the list item and tap "Delete" on the context menu.
+  - Set TODO done or not
+    - Tap the checkbox leftmost of each list item.
+  - Switch a note to a TODO or vice versa
+    - Long tap on the list item and tap "Convert to a Note/TODO" on the context menu.
