@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yoyo.exam.pdatu.myapplication.MainActivity">
+
+    <RelativeLayout
+        android:layout_above="@+id/bottom_bar"
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="1dp"
+        android:background="?android:colorBackground"
+        android:clipChildren="false"
+        android:elevation="@dimen/bottom_bar_elevation"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:id="@+id/notes_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/notes_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:alpha="1.0"
+                android:paddingBottom="5dp"
+                android:tint="@color/colorAccent"
+                android:src="@drawable/ic_note_black" />
+
+            <TextView
+                android:id="@+id/notes_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:alpha="1.0"
+                android:gravity="center"
+                android:text="@string/notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/todo_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:clipChildren="false"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/todo_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:alpha="0.38"
+                android:paddingBottom="5dp"
+                android:src="@drawable/ic_toc_black" />
+
+            <TextView
+                android:id="@+id/todo_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.38"
+                android:gravity="center"
+                android:text="@string/todo" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
