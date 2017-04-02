@@ -1,0 +1,18 @@
+Usage Instructions:
+
+- Create a new Note/ToDo
+    - This is the default view
+    - The second item on the fragment pager
+    - You can save it as Note or ToDo item
+
+- Update or View Note/ToDo
+    - Simply tap the item and it will show you the view / update screen
+    - You can also long press the item and it will show a bottom sheet, tap Edit Note
+    - While editing, you can also update the item to be a ToDo or Note entry
+
+- Delete
+    - You can also long press the item and it will show a bottom sheet, tap Delete
+
+- Mark as Done
+    - Tap the checkbox of the ToDo item
+

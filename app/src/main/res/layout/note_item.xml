@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="160dp">
+        <io.github.mthli.knife.KnifeText
+            android:id="@+id/knife"
+            android:hint="No Details"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:editable="false"
+            android:maxLines="4"
+            android:minHeight="200dp"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="top|start"
+            android:scrollbars="vertical"
+            android:background="@android:color/transparent"
+            app:bulletColor="@color/blue_500"
+            app:bulletRadius="@dimen/bullet_radius"
+            app:bulletGapWidth="@dimen/bullet_gap_width"
+            app:historyEnable="true"
+            app:historySize="99"
+            app:linkColor="@color/blue_500"
+            app:linkUnderline="true"
+            app:quoteColor="@color/blue_500"
+            app:quoteStripeWidth="@dimen/quote_stripe_width"
+            app:quoteCapWidth="@dimen/quote_gap_width">
+        </io.github.mthli.knife.KnifeText>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:orientation="vertical"
+        android:padding="4dp"
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/lime_900"
+        android:minWidth="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/title"
+                android:text="New Note"
+                android:layout_margin="8dp"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </android.support.v7.widget.CardView>
+
+    <View
+        android:id="@+id/hit_area"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"/>
+
+
+</RelativeLayout>
+
+
